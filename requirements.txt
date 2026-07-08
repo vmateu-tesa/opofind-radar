@@ -2,6 +2,7 @@ requests>=2.31
 feedparser>=6.0
 PyYAML>=6.0
 scrapling>=0.2
+curl_cffi>=0.7  # dependencia dura de scrapling.fetchers (incluso el Fetcher basico), no vino instalada
 APScheduler>=3.10
 python-dotenv>=1.0
 pytest>=8.0
