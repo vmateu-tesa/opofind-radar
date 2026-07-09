@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Date: Wed, 08 Jul 2026 12:09:31 GMT
+Content-Type: application/rss+xml; charset=utf-8
+Connection: keep-alive
+Vary: Accept-Encoding
+X-UA-Compatible: IE=edge
+Link: <https://sede.diputacionalicante.es/wp-json/>; rel="https://api.w.org/"
+Link: <https://sede.diputacionalicante.es/wp-json/wp/v2/pages/739>; rel="alternate"; title="JSON"; type="application/json"
+Link: <https://sede.diputacionalicante.es/?p=739>; rel=shortlink
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: accelerometer=(), autoplay=(), camera=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(),  usb=()
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.google.com  *.googleapis.com https://cdn-cookieyes.com https://cdn.jsdelivr.net https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://cdn.jsdelivr.net https://maxcdn.bootstrapcdn.com/bootstrap/ https://cdnjs.cloudflare.com; object-src 'none'; base-uri 'self'; connect-src 'self' https://translate.googleapis.com https://cdn-cookieyes.com https://log.cookieyes.com https://yoast.com; font-src 'self' https://fonts.gstatic.com https://s0.wp.com data: https://maxcdn.bootstrapcdn.com/bootstrap/ https://cdnjs.cloudflare.com; frame-src 'self' https://www.google.com https://diputacionalicante.sedelectronica.es; img-src 'self' https://fonts.gstatic.com https://generatepress.com *.diputacionalicante.es https://www.gstatic.com https://secure.gravatar.com https://ps.w.org https://s.w.org data:; manifest-src 'self'; media-src 'self'; worker-src blob:;
+Transfer-Encoding: chunked
+

@@ -1,8 +1,13 @@
-requests>=2.31
-feedparser>=6.0
-PyYAML>=6.0
-scrapling>=0.2
-curl_cffi>=0.7  # dependencia dura de scrapling.fetchers (incluso el Fetcher basico), no vino instalada
-APScheduler>=3.10
-python-dotenv>=1.0
-pytest>=8.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+scrapling[playwright]
+feedparser>=6.0.10
+pyyaml>=6.0.1
+SQLAlchemy>=2.0.20
+python-telegram-bot>=20.5
+APScheduler>=3.10.4
+pydantic>=2.4.2
+python-dotenv>=1.0.0
+fastapi>=0.104.0
+uvicorn>=0.23.2
+google-generativeai>=0.4.0

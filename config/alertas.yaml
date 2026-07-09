@@ -1,103 +1,61 @@
-# Perfiles de alerta de OpoRadar.
-#
-# Este fichero se relee ENTERO en cada ciclo (no hace falta reiniciar nada
-# para que un cambio aquí surta efecto en la siguiente ejecución del cron).
-#
-# Cada patrón de include_any / exclude_any es una expresión regular de Python,
-# evaluada sobre el texto normalizado (minúsculas, SIN acentos, con
-# re.IGNORECASE ya implícito por la normalización). Por eso los patrones de
-# abajo están escritos sin tildes ("informatic", no "informático").
-#
-# Usa \b (word boundary) en palabras cortas o ambiguas -- p.ej. "tic" sin \b
-# haría match dentro de "practica". Con \btic\b no.
-#
-# fields: en qué campos del anuncio se busca. Habitualmente los tres.
-# channels: canales por los que se notifica este perfil si hay match
-#           (se filtran también por TELEGRAM_ENABLED / WHATSAPP_ENABLED
-#           globales definidos por variable de entorno).
+# Perfiles de alertas para OpoRadar
 
-profiles:
-  - name: telecomunicaciones_tic
-    enabled: true
-    description: "Ingeniería de Telecomunicaciones, informática, sistemas, redes"
-    fields: [plaza, entidad, obs]
-    channels: [telegram, whatsapp]
-    include_any:
-      - "telecomunicac"
-      - "\\btic\\b"
-      - "tecnolog.{0,15}informac"
-      - "informatic"
-      - "sistemas.{0,10}informac"
-      - "redes.{0,10}(comunicac|informat)"
-      - "ciberseguridad"
-      - "administrador.{0,10}sistemas"
-      - "analista.{0,10}(informat|sistemas)"
-    exclude_any: []
+perfiles:
+  - nombre: "Informatica_Telecom"
+    keywords:
+      - "informática"
+      - "informatico"
+      - "informatica"
+      - "telecomunicaciones"
+      - "telecomunicacion"
+      - "sistemas"
+      - "redes"
+      - "software"
+      - "programador"
+      - "datos"
+      - "tecnologías de la información"
+      - "TAI"
+      - "T.A.I"
+    exclusiones:
+      - "turismo"
 
-  - name: iot_automatizacion_smartcity
-    enabled: true
-    description: "IoT, Smart Cities, automatización, domótica, eficiencia energética"
-    fields: [plaza, entidad, obs]
-    channels: [telegram, whatsapp]
-    include_any:
-      - "\\biot\\b"
-      - "internet de las cosas"
-      - "smart city"
-      - "ciudad(es)? inteligente"
-      - "automatiza"
-      - "domotic"
-      - "sensor.{0,10}(urbano|inteligente)"
-      - "eficiencia energetica"
-    exclude_any: []
+  - nombre: "Docencia_Secundaria_FP"
+    keywords:
+      - "profesor"
+      - "profesora"
+      - "secundaria"
+      - "formación profesional"
+      - "educador"
+      - "educadora"
+      - "docente"
+      - "maestro"
+      - "DAW"
+      - "DAM"
+      - "ASIR"
+    exclusiones:
+      - "música"
+      - "danza"
 
-  - name: acustica
-    enabled: true
-    description: "Máster en Acústica: ruido, contaminación acústica, ingeniería del sonido"
-    fields: [plaza, entidad, obs]
-    channels: [telegram, whatsapp]
-    include_any:
-      - "acustic"
-      - "\\bruido\\b"
-      - "contaminacion acustica"
-      - "ingenieria.{0,10}sonido"
-    exclude_any: []
+  - nombre: "Admin_Marina_Baixa"
+    keywords:
+      - "benidorm"
+      - "altea"
+      - "alfaz del pi"
+      - "l'alfàs del pi"
+      - "la nucia"
+      - "nucía"
+      - "polop"
+      - "villajoyosa"
+      - "la vila joiosa"
+      - "alicante"
+      - "diputación"
+    exclusiones:
+      - "valencia"
+      - "castellón"
 
-  - name: gestion_proyectos_admin_electronica
-    enabled: true
-    description: "Gestión de proyectos, administración electrónica, transformación digital"
-    fields: [plaza, entidad, obs]
-    channels: [telegram, whatsapp]
-    include_any:
-      - "gestion.{0,10}proyect"
-      - "project manager"
-      - "administracion electronica"
-      - "transformacion digital"
-      - "modernizacion administrativa"
-      - "tecnico.{0,10}gestion"
-    exclude_any: []
-
-  - name: docencia_fp_secundaria
-    enabled: true
-    description: "Docencia: FP, Secundaria, profesorado técnico"
-    fields: [plaza, entidad, obs]
-    channels: [telegram, whatsapp]
-    include_any:
-      - "profesor.{0,15}secundaria"
-      - "catedratic"
-      - "\\bdocente"
-      - "formacion profesional"
-      - "\\bfp\\b"
-      - "maestro.{0,10}taller"
-      - "profesor.{0,10}tecnico"
-      - "cuerpo.{0,10}profesores"
-    exclude_any: []
-
-  - name: ingenieria_general
-    enabled: true
-    description: "Red de seguridad más amplia: cualquier plaza de ingeniería técnica/superior"
-    fields: [plaza]
-    channels: [telegram]
-    include_any:
-      - "ingenier.{0,5}(tecnico|superior|industrial)"
-    exclude_any:
-      - "ingenier.{0,15}(agronom|forestal|minas|montes|agricola|naval)"
+  - nombre: "Global_Provincia"
+    # Si keywords está vacío, notifica todo lo que no esté en exclusiones
+    keywords: []
+    exclusiones:
+      - "médico"
+      - "enfermero"
