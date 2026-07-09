@@ -3,7 +3,6 @@ version: '3.8'
 services:
   backend:
     build: .
-    container_name: oporadar-backend
     restart: unless-stopped
     volumes:
       - sqlite_data:/app/data
@@ -11,14 +10,13 @@ services:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - ENABLE_TELEGRAM=${ENABLE_TELEGRAM:-0}
       - ENABLE_WHATSAPP=${ENABLE_WHATSAPP:-0}
-    # We do not expose 8000 to the public, Nginx will proxy it
+    # Not exposed publicly, Nginx proxies to it
 
   frontend:
     build: ./frontend
-    container_name: oporadar-frontend
     restart: unless-stopped
     ports:
-      - "8000:80"
+      - "3500:80"
     depends_on:
       - backend
 
