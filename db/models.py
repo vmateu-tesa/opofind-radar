@@ -21,7 +21,17 @@ class Convocatoria(Base):
     
     # Metadata as JSON string if needed, or simple columns
     vacantes = Column(String)
-    
+
+    # Tipo de publicacion detectado heuristicamente (ver core/classifier.py):
+    # "convocatoria" | "listas" | "nombramiento" | "otros". Para filtrar en
+    # la interfaz.
+    tipo = Column(String, nullable=False, default="convocatoria")
+
+    # Si el usuario ha marcado esta convocatoria para seguimiento manual:
+    # cualquier ACTUALIZACION futura (el hash_contenido cambia) dispara
+    # notificacion SIEMPRE, coincida o no con algun perfil de alertas.yaml.
+    seguimiento = Column(Boolean, nullable=False, default=False)
+
 class Notificacion(Base):
     __tablename__ = 'notificaciones'
     

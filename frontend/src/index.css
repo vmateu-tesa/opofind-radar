@@ -110,6 +110,32 @@ h1 {
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
+.badge-tipo {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-secondary);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Filter selects */
+.filter-select {
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: var(--font-main);
+  cursor: pointer;
+  outline: none;
+}
+
+.filter-select:hover,
+.filter-select:focus {
+  border-color: var(--accent-primary);
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

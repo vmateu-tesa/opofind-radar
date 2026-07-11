@@ -45,10 +45,15 @@ class BoeScraper(BaseScraper):
                     secciones = [secciones]
                     
                 for seccion in secciones:
-                    # Look for Section II (Autoridades y personal)
+                    # Solo la subseccion "II.B Oposiciones y concursos" (codigo "2B").
+                    # La "II.A Nombramientos, situaciones e incidencias" (codigo "2A")
+                    # son movimientos individuales de funcionarios (ceses, destinos,
+                    # nombramientos a puesto concreto...), no procesos selectivos
+                    # publicos -- antes se colaba con codigo_sec.startswith("2") y
+                    # llenaba la app de ruido no relacionado con oposiciones.
                     nombre_sec = seccion.get("nombre", "")
                     codigo_sec = seccion.get("codigo", "")
-                    if "Autoridades y personal" in nombre_sec or codigo_sec.startswith("2"):
+                    if codigo_sec == "2B" or "Oposiciones y concursos" in nombre_sec:
                         departamentos = seccion.get("departamento", [])
                         if not isinstance(departamentos, list):
                             departamentos = [departamentos]

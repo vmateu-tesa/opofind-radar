@@ -18,6 +18,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from db.database import init_db, get_session
 from db.models import Convocatoria, Notificacion
 from core.matcher import Matcher
+from core.classifier import classify_tipo
 from scrapers.dip_otras_oposiciones import DipOtrasOposicionesScraper
 from scrapers.dip_bolsa_oferta import DipBolsaOfertaScraper
 from scrapers.boe import BoeScraper
@@ -92,7 +93,8 @@ def check_updates():
                 fecha_fin=c_data.fecha_fin,
                 observaciones=c_data.observaciones,
                 vacantes=c_data.vacantes,
-                estado="nuevo"
+                estado="nuevo",
+                tipo=classify_tipo(c_data.titulo, c_data.observaciones),
             )
             session.add(conv)
             estado = "NUEVA"
@@ -101,17 +103,25 @@ def check_updates():
             conv.observaciones = c_data.observaciones
             conv.vacantes = c_data.vacantes
             conv.estado = "actualizado"
+            conv.tipo = classify_tipo(c_data.titulo, c_data.observaciones)
             estado = "ACTUALIZACIÓN"
-            
+
         if estado:
             texto_busqueda = f"{c_data.titulo} {c_data.entidad} {c_data.observaciones}"
             perfiles_matched = matcher.match(texto_busqueda)
-            
-            if perfiles_matched:
-                print(f"Match encontrado ({', '.join(perfiles_matched)}): [{estado}] {c_data.titulo} en {c_data.entidad}")
-                
+
+            # Si el usuario ha marcado esta convocatoria para seguimiento
+            # manual, cualquier actualizacion avisa SIEMPRE, aunque no
+            # coincida con ningun perfil de alertas.yaml.
+            if perfiles_matched or conv.seguimiento:
+                motivo = ', '.join(perfiles_matched) if perfiles_matched else 'seguimiento manual'
+                print(f"Match encontrado ({motivo}): [{estado}] {c_data.titulo} en {c_data.entidad}")
+
                 msg = f"🚨 <b>{estado} Oposición/Empleo</b>\n"
-                msg += f"<b>Perfiles:</b> {html_escape(', '.join(perfiles_matched))}\n"
+                if conv.seguimiento and not perfiles_matched:
+                    msg += "<b>(Convocatoria en seguimiento)</b>\n"
+                if perfiles_matched:
+                    msg += f"<b>Perfiles:</b> {html_escape(', '.join(perfiles_matched))}\n"
                 msg += f"<b>Entidad:</b> {_clean_for_telegram(c_data.entidad)}\n"
                 msg += f"<b>Plaza:</b> {_clean_for_telegram(c_data.titulo)}\n"
                 if c_data.vacantes:
@@ -197,6 +207,28 @@ def read_convocatorias(db: Session = Depends(get_db)):
     # Retornar convocatorias ordenadas por fecha descendente
     # Limitamos a 500 para no saturar
     return db.query(Convocatoria).order_by(Convocatoria.fecha_publicacion.desc()).limit(500).all()
+
+@app.post("/api/convocatorias/{convocatoria_id}/seguir")
+def seguir_convocatoria(convocatoria_id: str, db: Session = Depends(get_db)):
+    """Marca una convocatoria para seguimiento manual: a partir de ahora,
+    cualquier actualizacion suya (el hash de contenido cambia -- nueva
+    publicacion en Obs, cambio de fechas, etc.) dispara notificacion
+    SIEMPRE, coincida o no con los perfiles de alertas.yaml."""
+    conv = db.query(Convocatoria).filter_by(id=convocatoria_id).first()
+    if not conv:
+        raise HTTPException(status_code=404, detail="Convocatoria no encontrada")
+    conv.seguimiento = True
+    db.commit()
+    return {"id": conv.id, "seguimiento": True}
+
+@app.post("/api/convocatorias/{convocatoria_id}/dejar-de-seguir")
+def dejar_de_seguir_convocatoria(convocatoria_id: str, db: Session = Depends(get_db)):
+    conv = db.query(Convocatoria).filter_by(id=convocatoria_id).first()
+    if not conv:
+        raise HTTPException(status_code=404, detail="Convocatoria no encontrada")
+    conv.seguimiento = False
+    db.commit()
+    return {"id": conv.id, "seguimiento": False}
 
 @app.post("/api/trigger-sync")
 def trigger_sync(background_tasks: BackgroundTasks):

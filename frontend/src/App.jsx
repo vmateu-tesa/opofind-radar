@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Search, RefreshCw, BookOpen, ExternalLink, Building2, Calendar, FileText, X } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, RefreshCw, BookOpen, ExternalLink, Building2, Calendar, FileText, X, Star } from 'lucide-react';
 import { format, isAfter, isBefore, parse } from 'date-fns';
 import { es } from 'date-fns/locale';
+
+const TIPOS = [
+  { value: 'convocatoria', label: 'Convocatoria' },
+  { value: 'listas', label: 'Listas admitidos/aprobados' },
+  { value: 'nombramiento', label: 'Nombramiento' },
+  { value: 'otros', label: 'Otros' },
+];
 
 function App() {
   const [convocatorias, setConvocatorias] = useState([]);
@@ -9,7 +16,10 @@ function App() {
   const [syncing, setSyncing] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("todas");
-  
+  const [entidadFilter, setEntidadFilter] = useState("todas");
+  const [tipoFilter, setTipoFilter] = useState("todas");
+  const [soloSeguidas, setSoloSeguidas] = useState(false);
+
   // Modal state
   const [modalData, setModalData] = useState(null); // { type: 'test' | 'temario', data: any, title: string }
   const [modalLoading, setModalLoading] = useState(false);
@@ -65,6 +75,22 @@ function App() {
     setTestAnswers(prev => ({ ...prev, [qIndex]: oIndex }));
   };
 
+  const handleToggleSeguimiento = async (id, seguidaActualmente) => {
+    // Actualizacion optimista: cambia el estado local ya, y si la llamada
+    // falla, se revierte.
+    setConvocatorias(prev => prev.map(c => c.id === id ? { ...c, seguimiento: !seguidaActualmente } : c));
+    try {
+      const endpoint = seguidaActualmente
+        ? `/api/convocatorias/${id}/dejar-de-seguir`
+        : `/api/convocatorias/${id}/seguir`;
+      const res = await fetch(endpoint, { method: 'POST' });
+      if (!res.ok) throw new Error('fallo la peticion');
+    } catch (err) {
+      console.error('Error al cambiar seguimiento', err);
+      setConvocatorias(prev => prev.map(c => c.id === id ? { ...c, seguimiento: seguidaActualmente } : c));
+    }
+  };
+
   // Clasificador de estado
   const getClassifiedStatus = (c) => {
     if (!c.fecha_inicio || !c.fecha_fin) return "no_convocadas";
@@ -85,12 +111,20 @@ function App() {
     status_radar: getClassifiedStatus(c)
   }));
 
+  const entidadesUnicas = useMemo(() => {
+    const set = new Set(convocatorias.map(c => c.entidad).filter(Boolean));
+    return Array.from(set).sort((a, b) => a.localeCompare(b, 'es'));
+  }, [convocatorias]);
+
   const filteredData = processedData.filter(c => {
-    const matchesSearch = c.titulo.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = c.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           (c.entidad && c.entidad.toLowerCase().includes(searchTerm.toLowerCase()));
-    
-    if (activeTab === "todas") return matchesSearch;
-    return matchesSearch && c.status_radar === activeTab;
+    const matchesTab = activeTab === "todas" || c.status_radar === activeTab;
+    const matchesEntidad = entidadFilter === "todas" || c.entidad === entidadFilter;
+    const matchesTipo = tipoFilter === "todas" || c.tipo === tipoFilter;
+    const matchesSeguimiento = !soloSeguidas || c.seguimiento;
+
+    return matchesSearch && matchesTab && matchesEntidad && matchesTipo && matchesSeguimiento;
   });
 
   return (
@@ -122,22 +156,57 @@ function App() {
         </button>
       </div>
 
-      <div className="glass-card" style={{ marginBottom: '2rem', padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div className="glass-card" style={{ marginBottom: '1rem', padding: '1rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <Search size={20} color="var(--text-secondary)" />
-        <input 
-          type="text" 
-          placeholder="Buscar por plaza o entidad..." 
+        <input
+          type="text"
+          placeholder="Buscar por plaza o entidad..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ 
-            background: 'transparent', 
-            border: 'none', 
-            color: 'white', 
-            width: '100%', 
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'white',
+            width: '100%',
             fontSize: '1rem',
             outline: 'none'
           }}
         />
+      </div>
+
+      {/* FILTROS: entidad, tipo de publicacion, solo seguidas */}
+      <div className="glass-card" style={{ marginBottom: '2rem', padding: '1rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem' }}>
+        <select
+          className="filter-select"
+          value={entidadFilter}
+          onChange={(e) => setEntidadFilter(e.target.value)}
+        >
+          <option value="todas">Todos los ayuntamientos/entidades</option>
+          {entidadesUnicas.map(ent => (
+            <option key={ent} value={ent}>{ent}</option>
+          ))}
+        </select>
+
+        <select
+          className="filter-select"
+          value={tipoFilter}
+          onChange={(e) => setTipoFilter(e.target.value)}
+        >
+          <option value="todas">Todos los tipos de publicación</option>
+          {TIPOS.map(t => (
+            <option key={t.value} value={t.value}>{t.label}</option>
+          ))}
+        </select>
+
+        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+          <input
+            type="checkbox"
+            checked={soloSeguidas}
+            onChange={(e) => setSoloSeguidas(e.target.checked)}
+          />
+          <Star size={16} fill={soloSeguidas ? 'currentColor' : 'none'} />
+          Solo seguidas
+        </label>
       </div>
 
       {loading ? (
@@ -147,15 +216,27 @@ function App() {
           {filteredData.map(c => (
             <div key={c.id} className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                <span className={`badge ${c.estado === 'nuevo' ? 'badge-nuevo' : 'badge-actualizado'}`}>
-                  {c.estado.toUpperCase()}
-                </span>
-                
-                {c.status_radar === 'en_curso' && <span title="En Curso" style={{color: '#10b981'}}>🟢</span>}
-                {c.status_radar === 'no_convocadas' && <span title="Bases publicadas, sin plazo aún" style={{color: '#fbbf24'}}>🟡</span>}
-                {c.status_radar === 'pasadas' && <span title="Plazo cerrado" style={{color: '#ef4444'}}>🔴</span>}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <span className={`badge ${c.estado === 'nuevo' ? 'badge-nuevo' : 'badge-actualizado'}`}>
+                    {c.estado.toUpperCase()}
+                  </span>
+                  {c.tipo && <span className="badge badge-tipo">{TIPOS.find(t => t.value === c.tipo)?.label || c.tipo}</span>}
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {c.status_radar === 'en_curso' && <span title="En Curso" style={{color: '#10b981'}}>🟢</span>}
+                  {c.status_radar === 'no_convocadas' && <span title="Bases publicadas, sin plazo aún" style={{color: '#fbbf24'}}>🟡</span>}
+                  {c.status_radar === 'pasadas' && <span title="Plazo cerrado" style={{color: '#ef4444'}}>🔴</span>}
+                  <button
+                    onClick={() => handleToggleSeguimiento(c.id, c.seguimiento)}
+                    title={c.seguimiento ? 'Dejar de seguir' : 'Seguir esta convocatoria (avisa de cualquier novedad)'}
+                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: c.seguimiento ? '#f59e0b' : 'var(--text-secondary)', padding: 0, display: 'flex' }}
+                  >
+                    <Star size={20} fill={c.seguimiento ? 'currentColor' : 'none'} />
+                  </button>
+                </div>
               </div>
-              
+
               <h3 style={{ margin: 0, fontSize: '1.2rem', lineHeight: '1.4' }}>{c.titulo}</h3>
               
               <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
