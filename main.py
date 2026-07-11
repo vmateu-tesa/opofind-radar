@@ -156,9 +156,9 @@ async def lifespan(app: FastAPI):
     if interval_hours > 0:
         scheduler.add_job(check_updates, IntervalTrigger(hours=interval_hours))
     else:
-        # Por defecto, una vez al dia a las 4:00 (estas fuentes no cambian
+        # Por defecto, una vez al dia a las 2:00 (estas fuentes no cambian
         # varias veces al dia, no hace falta sondear mas a menudo).
-        scheduler.add_job(check_updates, CronTrigger(hour=4, minute=0))
+        scheduler.add_job(check_updates, CronTrigger(hour=2, minute=0))
     scheduler.start()
     yield
     scheduler.shutdown()
