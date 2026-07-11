@@ -41,9 +41,43 @@ def _migrate_missing_columns():
             conn.execute(text(f'ALTER TABLE convocatorias ADD COLUMN {col.name} {tipo_sql}{default_sql}'))
 
 
+# Migraciones de datos de un solo uso (no de esquema): se registran aqui
+# para que nunca se repitan, aunque el contenido que borrarian/tocarian ya
+# no exista en un arranque posterior.
+_MIGRACIONES_DATOS = {
+    "purge_boe_ruido_2a_2026_07": (
+        # scrapers/boe.py incluia antes la subseccion "II.A Nombramientos,
+        # situaciones e incidencias" ademas de la "II.B Oposiciones y
+        # concursos" (bug: codigo_sec.startswith("2") en vez de == "2B").
+        # Esto llenaba la app de movimientos individuales de funcionarios
+        # sin relacion con procesos selectivos. Se limpian las filas de BOE
+        # ya guardadas con ese filtro antiguo; el siguiente ciclo de
+        # scraping las repuebla ya filtradas correctamente.
+        "DELETE FROM convocatorias WHERE fuente = 'boe'"
+    ),
+}
+
+
+def _run_one_time_data_migrations():
+    with engine.begin() as conn:
+        conn.execute(text(
+            "CREATE TABLE IF NOT EXISTS _migraciones_datos ("
+            "nombre TEXT PRIMARY KEY, aplicada_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
+        ))
+        aplicadas = {row[0] for row in conn.execute(text("SELECT nombre FROM _migraciones_datos"))}
+
+    for nombre, sql in _MIGRACIONES_DATOS.items():
+        if nombre in aplicadas:
+            continue
+        with engine.begin() as conn:
+            conn.execute(text(sql))
+            conn.execute(text("INSERT INTO _migraciones_datos (nombre) VALUES (:nombre)"), {"nombre": nombre})
+
+
 def init_db():
     Base.metadata.create_all(bind=engine)
     _migrate_missing_columns()
+    _run_one_time_data_migrations()
 
 def get_session():
     return SessionLocal()
