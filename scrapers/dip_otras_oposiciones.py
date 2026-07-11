@@ -1,3 +1,4 @@
+import hashlib
 import requests
 from bs4 import BeautifulSoup
 from typing import List
@@ -6,12 +7,9 @@ import re
 
 class DipOtrasOposicionesScraper(BaseScraper):
     URL = "https://sede.diputacionalicante.es/empleo-otras-oposiciones/"
-    
+
     def scrape(self) -> List[ConvocatoriaData]:
-        # Disable SSL verification as sede sites sometimes have issues, but let's try with it first.
-        # It's better to disable it explicitly if we know it fails, or handle it.
-        # User prompt indicated standard scraping.
-        response = requests.get(self.URL, verify=False)
+        response = requests.get(self.URL, timeout=20)
         response.raise_for_status()
         
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -31,10 +29,12 @@ class DipOtrasOposicionesScraper(BaseScraper):
             
         rows = table.find('tbody').find_all('tr') if table.find('tbody') else table.find_all('tr')
         
-        # Skip header if it's in tr
+        # Skip header if it's in tr. Comprobamos por celda <th> real o por
+        # texto EXACTO "Plaza" (no substring): una convocatoria real puede
+        # perfectamente titularse "2 Plazas de Bombero" y no debe descartarse.
         for row in rows:
             cols = row.find_all(['td', 'th'])
-            if not cols or 'Plaza' in cols[0].get_text():
+            if not cols or row.find('th') or cols[0].get_text(strip=True) == 'Plaza':
                 continue
                 
             # Columns: Plaza | Entidad | Vacantes | Bases | Presentación F.Inicio | Presentación F.Final | Obs
@@ -50,7 +50,21 @@ class DipOtrasOposicionesScraper(BaseScraper):
                     
                 fecha_inicio = cols[4].get_text(strip=True)
                 fecha_fin = cols[5].get_text(strip=True)
-                obs = cols[6].get_text(strip=True)
+
+                # La celda "Obs" no lleva texto plano: cada publicacion
+                # posterior (BOP/DOGV/BOE) se representa como un <img> cuyo
+                # atributo title/alt lleva el aviso real, p.ej.
+                # <img title="DOGV.- 24/04/2026 - Publica extracto bases.">
+                # Puede haber mas de uno si se acumulan varias publicaciones;
+                # se concatenan en orden. Se incluye tambien el texto plano
+                # de la celda por si en algun caso viniera asi directamente.
+                obs_imgs = [
+                    (img.get('title') or img.get('alt') or '').strip()
+                    for img in cols[6].find_all('img')
+                ]
+                obs_texto = cols[6].get_text(strip=True)
+                obs_partes = [o for o in obs_imgs if o] + ([obs_texto] if obs_texto else [])
+                obs = " | ".join(obs_partes)
                 
                 # Extract ID from PDF filename, e.g. 11357.pdf
                 id_match = re.search(r'/([^/]+)\.pdf', enlace, re.IGNORECASE)

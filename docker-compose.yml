@@ -6,10 +6,8 @@ services:
     restart: unless-stopped
     volumes:
       - sqlite_data:/app/data
-    environment:
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - ENABLE_TELEGRAM=${ENABLE_TELEGRAM:-0}
-      - ENABLE_WHATSAPP=${ENABLE_WHATSAPP:-0}
+    env_file:
+      - .env
     # Not exposed publicly, Nginx proxies to it
 
   frontend:

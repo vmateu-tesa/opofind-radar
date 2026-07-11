@@ -15,3 +15,9 @@ logs/
 frontend/node_modules/
 frontend/dist/
 frontend/.env.local
+
+# Claves SSH sueltas en la raiz del repo (deploy_key para Coolify/QNAP) -- NUNCA deben comitearse
+deploy_key
+deploy_key.pub
+deploy_key_rsa
+deploy_key_rsa.pub

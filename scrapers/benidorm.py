@@ -25,8 +25,8 @@ class BenidormScraper(BaseScraper):
                 if len(cols) >= 3:
                     # Depending on exact structure, assuming:
                     # 0: Fecha, 1: Titulo/Asunto, 2: Enlace/Detalle
-                    fecha = cols[0].text
-                    titulo = cols[1].text.strip()
+                    fecha = (cols[0].text or "").strip()
+                    titulo = (cols[1].text or "").strip()
                     
                     enlace = ""
                     enlace_tag = cols[1].css("a") or cols[2].css("a")

@@ -1,13 +1,15 @@
 import os
+import time
 from datetime import datetime
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Depends, BackgroundTasks
+from fastapi import FastAPI, Depends, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.interval import IntervalTrigger
 
 from db.database import init_db, get_session
 from db.models import Convocatoria, Notificacion
@@ -17,6 +19,7 @@ from scrapers.dip_bolsa_oferta import DipBolsaOfertaScraper
 from scrapers.boe import BoeScraper
 from scrapers.benidorm import BenidormScraper
 from scrapers.dogv import DogvScraper
+from scrapers.bop_alicante import BopAlicanteScraper
 from notifications.telegram_bot import TelegramNotifier
 from notifications.whatsapp_api import WhatsappNotifier
 from study_module.generator import StudyGenerator
@@ -34,7 +37,8 @@ def check_updates():
         DipBolsaOfertaScraper(),
         BoeScraper(),
         BenidormScraper(),
-        DogvScraper()
+        DogvScraper(),
+        BopAlicanteScraper(),
     ]
     
     todas_convocatorias = []
@@ -117,8 +121,13 @@ scheduler = BackgroundScheduler()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Programar a las 4:00 AM
-    scheduler.add_job(check_updates, CronTrigger(hour=4, minute=0))
+    interval_hours = int(os.getenv("INTERVAL_HOURS", "0") or "0")
+    if interval_hours > 0:
+        scheduler.add_job(check_updates, IntervalTrigger(hours=interval_hours))
+    else:
+        # Por defecto, una vez al dia a las 4:00 (estas fuentes no cambian
+        # varias veces al dia, no hace falta sondear mas a menudo).
+        scheduler.add_job(check_updates, CronTrigger(hour=4, minute=0))
     scheduler.start()
     yield
     scheduler.shutdown()
@@ -130,8 +139,8 @@ app = FastAPI(lifespan=lifespan, title="OpoRadar API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict to frontend domain
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,  # no hay cookies/sesion; "*" + credenciales no es valido igualmente
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -143,6 +152,25 @@ def get_db():
     finally:
         db.close()
 
+# Rate limiting minimo en memoria para los endpoints caros/con efectos
+# (evita que un doble-click, un bucle del frontend, o un bot que encuentre
+# la URL puedan disparar scrapes repetidos o quemar la cuota de Gemini).
+# No hay sistema de login en esta app (el frontend es de un unico usuario),
+# asi que una API key rompería su propio uso; esto es una cota barata, no
+# autenticacion real -- si esta app se expone mas alla de la red privada del
+# usuario, conviene ademas restringir el acceso a nivel de infraestructura.
+_last_call: dict[str, float] = {}
+
+
+def _rate_limit(key: str, min_interval_seconds: float):
+    now = time.monotonic()
+    last = _last_call.get(key, 0.0)
+    remaining = min_interval_seconds - (now - last)
+    if remaining > 0:
+        raise HTTPException(status_code=429, detail=f"Espera {int(remaining) + 1}s antes de repetir esta accion.")
+    _last_call[key] = now
+
+
 @app.get("/api/convocatorias")
 def read_convocatorias(db: Session = Depends(get_db)):
     # Retornar convocatorias ordenadas por fecha descendente
@@ -151,27 +179,30 @@ def read_convocatorias(db: Session = Depends(get_db)):
 
 @app.post("/api/trigger-sync")
 def trigger_sync(background_tasks: BackgroundTasks):
+    _rate_limit("trigger-sync", 300)  # maximo una sincronizacion manual cada 5 minutos
     background_tasks.add_task(check_updates)
     return {"message": "Sincronización manual iniciada en segundo plano"}
 
 @app.post("/api/generar-estudio/{convocatoria_id}")
 def generar_estudio(convocatoria_id: str, db: Session = Depends(get_db)):
+    _rate_limit("ia", 10)  # evita rafagas contra la API de Gemini
     conv = db.query(Convocatoria).filter_by(id=convocatoria_id).first()
     if not conv:
         return {"error": "Convocatoria no encontrada"}
-        
+
     study = StudyGenerator()
     texto_base = f"{conv.titulo} {conv.observaciones} en {conv.entidad}"
     temario = study.generate_syllabus(texto_base)
-    
+
     return {"temario": temario}
 
 @app.post("/api/generar-test/{convocatoria_id}")
 def generar_test(convocatoria_id: str, db: Session = Depends(get_db)):
+    _rate_limit("ia", 10)  # evita rafagas contra la API de Gemini
     conv = db.query(Convocatoria).filter_by(id=convocatoria_id).first()
     if not conv:
         return {"error": "Convocatoria no encontrada"}
-        
+
     study = StudyGenerator()
     texto_base = f"{conv.titulo} {conv.observaciones} en {conv.entidad}"
     test_json = study.generate_test(texto_base)
