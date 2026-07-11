@@ -32,7 +32,7 @@ class WhatsappNotifier(BaseNotifier):
         }
         
         try:
-            response = requests.post(url, headers=headers, json=payload_text)
+            response = requests.post(url, headers=headers, json=payload_text, timeout=20)
             response.raise_for_status()
             return True
         except requests.exceptions.HTTPError as e:
@@ -62,7 +62,7 @@ class WhatsappNotifier(BaseNotifier):
             }
         }
         try:
-            response = requests.post(url, headers=headers, json=payload_template)
+            response = requests.post(url, headers=headers, json=payload_template, timeout=20)
             response.raise_for_status()
             return True
         except Exception as e:

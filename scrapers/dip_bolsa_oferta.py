@@ -1,4 +1,5 @@
 import feedparser
+import requests
 from typing import List
 from scrapers.base import BaseScraper, ConvocatoriaData
 import hashlib
@@ -8,12 +9,20 @@ class DipBolsaOfertaScraper(BaseScraper):
         "dip_bolsa": "https://sede.diputacionalicante.es/rssbolsa/",
         "dip_oferta": "https://sede.diputacionalicante.es/rssoferta/"
     }
-    
+
     def scrape(self) -> List[ConvocatoriaData]:
         convocatorias = []
-        
+
         for fuente_id, url in self.URLS.items():
-            feed = feedparser.parse(url)
+            # feedparser.parse(url) hace su propia peticion sin timeout (podria
+            # colgarse indefinidamente); se descarga con requests primero.
+            try:
+                response = requests.get(url, timeout=20)
+                response.raise_for_status()
+            except requests.RequestException as e:
+                print(f"Error descargando RSS {fuente_id}: {e}")
+                continue
+            feed = feedparser.parse(response.content)
             
             for entry in feed.entries:
                 titulo = entry.get('title', 'Sin título')

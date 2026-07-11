@@ -1,8 +1,12 @@
 import os
+import re
 import time
 from datetime import datetime
+from html import escape as html_escape
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
+
+from bs4 import BeautifulSoup
 
 from fastapi import FastAPI, Depends, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,6 +27,21 @@ from scrapers.bop_alicante import BopAlicanteScraper
 from notifications.telegram_bot import TelegramNotifier
 from notifications.whatsapp_api import WhatsappNotifier
 from study_module.generator import StudyGenerator
+
+def _clean_for_telegram(text: str) -> str:
+    """Limpia HTML crudo que puede venir de un RSS (p.ej. observaciones de
+    dip_bolsa_oferta trae <strong>/<br/> tal cual) y escapa caracteres
+    especiales, para que el texto sea seguro dentro de un mensaje de
+    Telegram con parse_mode="HTML" -- que solo admite un subconjunto muy
+    limitado de etiquetas (<b>, <i>, <a>...), no <strong> ni <br/>. Sin este
+    paso Telegram rechaza el mensaje ENTERO con un 400 si el texto trae
+    markup no soportado, y la notificacion no llega."""
+    if not text:
+        return text
+    texto = re.sub(r"<br\s*/?>", "\n", text, flags=re.IGNORECASE)
+    texto = BeautifulSoup(texto, "html.parser").get_text()
+    return html_escape(texto)
+
 
 def check_updates():
     print(f"[{datetime.now()}] Iniciando chequeo de OpoRadar...")
@@ -92,15 +111,17 @@ def check_updates():
                 print(f"Match encontrado ({', '.join(perfiles_matched)}): [{estado}] {c_data.titulo} en {c_data.entidad}")
                 
                 msg = f"🚨 <b>{estado} Oposición/Empleo</b>\n"
-                msg += f"<b>Perfiles:</b> {', '.join(perfiles_matched)}\n"
-                msg += f"<b>Entidad:</b> {c_data.entidad}\n"
-                msg += f"<b>Plaza:</b> {c_data.titulo}\n"
+                msg += f"<b>Perfiles:</b> {html_escape(', '.join(perfiles_matched))}\n"
+                msg += f"<b>Entidad:</b> {_clean_for_telegram(c_data.entidad)}\n"
+                msg += f"<b>Plaza:</b> {_clean_for_telegram(c_data.titulo)}\n"
                 if c_data.vacantes:
-                    msg += f"<b>Vacantes:</b> {c_data.vacantes}\n"
+                    msg += f"<b>Vacantes:</b> {_clean_for_telegram(c_data.vacantes)}\n"
                 if c_data.enlace:
-                    msg += f"<b>Enlace:</b> {c_data.enlace}\n"
+                    # El enlace va como texto plano (no <a href>): puede traer
+                    # caracteres que romperian el atributo href sin escapar aparte.
+                    msg += f"<b>Enlace:</b> {html_escape(c_data.enlace)}\n"
                 if c_data.observaciones:
-                    msg += f"<b>Obs:</b> {c_data.observaciones}\n"
+                    msg += f"<b>Obs:</b> {_clean_for_telegram(c_data.observaciones)}\n"
                     
                 enviado_tg = telegram.send_message(msg) if os.getenv("ENABLE_TELEGRAM") == "1" else False
                 enviado_wa = whatsapp.send_message(msg) if os.getenv("ENABLE_WHATSAPP") == "1" else False

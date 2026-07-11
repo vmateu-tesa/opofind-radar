@@ -21,7 +21,7 @@ class BoeScraper(BaseScraper):
         headers = {"Accept": "application/json"}
         
         try:
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=20)
             # BOE API returns 404 for days without a bulletin (Sundays, holidays)
             if response.status_code == 404:
                 return []

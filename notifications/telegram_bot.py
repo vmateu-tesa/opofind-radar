@@ -20,7 +20,7 @@ class TelegramNotifier(BaseNotifier):
         }
         
         try:
-            response = requests.post(url, json=payload)
+            response = requests.post(url, json=payload, timeout=20)
             response.raise_for_status()
             return True
         except Exception as e:
