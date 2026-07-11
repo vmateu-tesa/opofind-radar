@@ -242,6 +242,12 @@ def generar_estudio(convocatoria_id: str, db: Session = Depends(get_db)):
     conv = db.query(Convocatoria).filter_by(id=convocatoria_id).first()
     if not conv:
         return {"error": "Convocatoria no encontrada"}
+    if conv.tipo != "convocatoria":
+        # Listas de admitidos, nombramientos, etc. no son un proceso
+        # selectivo abierto: no tiene sentido generar temario para ellos
+        # (ni gastar cuota de Gemini en contenido sin utilidad real).
+        return {"error": "Esta publicación no es un proceso selectivo abierto (es de tipo "
+                          f"'{conv.tipo}'); no se genera temario para ella."}
 
     study = StudyGenerator()
     texto_base = f"{conv.titulo} {conv.observaciones} en {conv.entidad}"
@@ -255,6 +261,9 @@ def generar_test(convocatoria_id: str, db: Session = Depends(get_db)):
     conv = db.query(Convocatoria).filter_by(id=convocatoria_id).first()
     if not conv:
         return {"error": "Convocatoria no encontrada"}
+    if conv.tipo != "convocatoria":
+        return {"error": "Esta publicación no es un proceso selectivo abierto (es de tipo "
+                          f"'{conv.tipo}'); no se genera test para ella."}
 
     study = StudyGenerator()
     texto_base = f"{conv.titulo} {conv.observaciones} en {conv.entidad}"

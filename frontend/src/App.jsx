@@ -272,21 +272,30 @@ function App() {
                 </div>
               )}
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: c.observaciones ? '1rem' : 'auto' }}>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  {c.enlace && (
-                    <a href={c.enlace} target="_blank" rel="noreferrer" className="btn-primary" style={{ flex: 1, justifyContent: 'center', textDecoration: 'none', background: 'rgba(255,255,255,0.1)' }}>
-                      <ExternalLink size={16} /> Bases
-                    </a>
+              {/* Temario y Test con IA solo tienen sentido para un proceso
+                  selectivo abierto (tipo === 'convocatoria'): una lista de
+                  admitidos o un nombramiento no tiene temario que estudiar. */}
+              {(c.enlace || c.tipo === 'convocatoria') && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: c.observaciones ? '1rem' : 'auto' }}>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    {c.enlace && (
+                      <a href={c.enlace} target="_blank" rel="noreferrer" className="btn-primary" style={{ flex: 1, justifyContent: 'center', textDecoration: 'none', background: 'rgba(255,255,255,0.1)' }}>
+                        <ExternalLink size={16} /> Bases
+                      </a>
+                    )}
+                    {c.tipo === 'convocatoria' && (
+                      <button className="btn-primary" onClick={() => handleStudy(c.id, c.titulo, 'temario')} style={{ flex: 1, justifyContent: 'center', background: 'var(--accent-primary)' }}>
+                        <BookOpen size={16} /> Temario
+                      </button>
+                    )}
+                  </div>
+                  {c.tipo === 'convocatoria' && (
+                    <button className="btn-primary" onClick={() => handleStudy(c.id, c.titulo, 'test')} style={{ width: '100%', justifyContent: 'center', background: '#f59e0b', color: '#000' }}>
+                      <FileText size={16} /> Generar Test con IA
+                    </button>
                   )}
-                  <button className="btn-primary" onClick={() => handleStudy(c.id, c.titulo, 'temario')} style={{ flex: 1, justifyContent: 'center', background: 'var(--accent-primary)' }}>
-                    <BookOpen size={16} /> Temario
-                  </button>
                 </div>
-                <button className="btn-primary" onClick={() => handleStudy(c.id, c.titulo, 'test')} style={{ width: '100%', justifyContent: 'center', background: '#f59e0b', color: '#000' }}>
-                  <FileText size={16} /> Generar Test con IA
-                </button>
-              </div>
+              )}
             </div>
           ))}
           {filteredData.length === 0 && (
