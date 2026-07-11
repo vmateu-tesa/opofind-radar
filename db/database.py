@@ -2,6 +2,7 @@ import os
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import sessionmaker
 from db.models import Base, Convocatoria
+from core.classifier import classify_tipo
 
 DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'oporadar.db')
 
@@ -43,7 +44,24 @@ def _migrate_missing_columns():
 
 # Migraciones de datos de un solo uso (no de esquema): se registran aqui
 # para que nunca se repitan, aunque el contenido que borrarian/tocarian ya
-# no exista en un arranque posterior.
+# no exista en un arranque posterior. Cada valor es una sentencia SQL
+# (str) o una funcion Python que recibe la conexion (callable).
+def _reclasificar_tipos_existentes(conn):
+    # tipo se calcula al crear/actualizar una convocatoria (ver main.py),
+    # pero las filas que ya existian antes de añadir la columna se
+    # quedaron con el valor por defecto 'convocatoria' hasta que su
+    # contenido cambiase de nuevo. Se reclasifican todas de una vez con la
+    # heuristica real para que listas/nombramientos ya guardados se vean
+    # bien desde ya, sin esperar a una actualizacion futura.
+    filas = conn.execute(text("SELECT id, titulo, observaciones FROM convocatorias")).fetchall()
+    for fila_id, titulo, observaciones in filas:
+        nuevo_tipo = classify_tipo(titulo, observaciones)
+        conn.execute(
+            text("UPDATE convocatorias SET tipo = :tipo WHERE id = :id"),
+            {"tipo": nuevo_tipo, "id": fila_id},
+        )
+
+
 _MIGRACIONES_DATOS = {
     "purge_boe_ruido_2a_2026_07": (
         # scrapers/boe.py incluia antes la subseccion "II.A Nombramientos,
@@ -55,6 +73,7 @@ _MIGRACIONES_DATOS = {
         # scraping las repuebla ya filtradas correctamente.
         "DELETE FROM convocatorias WHERE fuente = 'boe'"
     ),
+    "reclasificar_tipo_existentes_2026_07": _reclasificar_tipos_existentes,
 }
 
 
@@ -66,11 +85,14 @@ def _run_one_time_data_migrations():
         ))
         aplicadas = {row[0] for row in conn.execute(text("SELECT nombre FROM _migraciones_datos"))}
 
-    for nombre, sql in _MIGRACIONES_DATOS.items():
+    for nombre, accion in _MIGRACIONES_DATOS.items():
         if nombre in aplicadas:
             continue
         with engine.begin() as conn:
-            conn.execute(text(sql))
+            if callable(accion):
+                accion(conn)
+            else:
+                conn.execute(text(accion))
             conn.execute(text("INSERT INTO _migraciones_datos (nombre) VALUES (:nombre)"), {"nombre": nombre})
 
 
