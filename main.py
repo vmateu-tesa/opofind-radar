@@ -28,6 +28,7 @@ from scrapers.dogv import DogvScraper
 from scrapers.bop_alicante import BopAlicanteScraper
 from scrapers.elche import ElcheScraper
 from scrapers.gestiona import GestionaScraper
+from scrapers.alfaz import AlfazScraper
 from notifications.telegram_bot import TelegramNotifier
 from notifications.whatsapp_api import WhatsappNotifier
 from notifications.email_smtp import EmailNotifier
@@ -107,6 +108,7 @@ def check_updates():
         BopAlicanteScraper(dias_atras=_env_int("BOP_DIAS_ATRAS", 3)),
         ElcheScraper(),          # tablon RRHH del Ayto de Elche
         GestionaScraper(),       # tablones Marina Baixa (la Nucia, Altea, ...)
+        AlfazScraper(),          # tablon de seleccion de personal de l'Alfas del Pi
     ]
 
     todas_convocatorias = []

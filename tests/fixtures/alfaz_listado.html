@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="pingback" href="https://www.lalfas.es/xmlrpc.php" />
+
+	<script type="text/javascript">
+		document.documentElement.className = 'js';
+	</script>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><style id="et-divi-open-sans-inline-css">/* Original: https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext,vietnamese&#038;display=swap *//* User Agent: Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 Daum/4.1 */@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 300;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk5hkaVc.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 400;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkaVc.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 600;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkxhjaVc.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 700;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjaVc.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 800;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk0ZjaVc.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 300;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0C4n.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 400;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4n.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 600;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1y4n.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 700;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1y4n.ttf) format('truetype');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 800;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgshZ1y4n.ttf) format('truetype');}/* User Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0 */@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 300;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk5hkaVQ.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 400;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkaVQ.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 600;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkxhjaVQ.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 700;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjaVQ.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 800;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk0ZjaVQ.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 300;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0C4k.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 400;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4k.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 600;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1y4k.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 700;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1y4k.woff) format('woff');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 800;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgshZ1y4k.woff) format('woff');}/* User Agent: Mozilla/5.0 (Windows NT 6.3; rv:39.0) Gecko/20100101 Firefox/39.0 */@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 300;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk5hkaVI.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 400;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk8ZkaVI.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 600;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkxhjaVI.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 700;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0RkyFjaVI.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: italic;font-weight: 800;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memQYaGs126MiZpBA-UFUIcVXSCEkx2cmqvXlWq8tWZ0Pw86hd0Rk0ZjaVI.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 300;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsiH0C4i.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 400;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsjZ0C4i.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 600;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsgH1y4i.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 700;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1y4i.woff2) format('woff2');}@font-face {font-family: 'Open Sans';font-style: normal;font-weight: 800;font-stretch: normal;font-display: swap;src: url(https://fonts.gstatic.com/s/opensans/v44/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgshZ1y4i.woff2) format('woff2');}</style><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+<!-- Ads on this site are served by WP PRO Advertising System - All In One Ad Manager v5.3.0 - wordpress-advertising.tunasite.com -->
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','wppas_ga');wppas_ga('create', 'UA-29373622-1', 'auto');</script><!-- / WP PRO Advertising System - All In One Ad Manager. -->
+
+<script type="text/javascript">
+			let jqueryParams=[],jQuery=function(r){return jqueryParams=[...jqueryParams,r],jQuery},$=function(r){return jqueryParams=[...jqueryParams,r],$};window.jQuery=jQuery,window.$=jQuery;let customHeadScripts=!1;jQuery.fn=jQuery.prototype={},$.fn=jQuery.prototype={},jQuery.noConflict=function(r){if(window.jQuery)return jQuery=window.jQuery,$=window.jQuery,customHeadScripts=!0,jQuery.noConflict},jQuery.ready=function(r){jqueryParams=[...jqueryParams,r]},$.ready=function(r){jqueryParams=[...jqueryParams,r]},jQuery.load=function(r){jqueryParams=[...jqueryParams,r]},$.load=function(r){jqueryParams=[...jqueryParams,r]},jQuery.fn.ready=function(r){jqueryParams=[...jqueryParams,r]},$.fn.ready=function(r){jqueryParams=[...jqueryParams,r]};</script>
+	<!-- This site is optimized with the Yoast SEO plugin v28.0 - https://yoast.com/product/yoast-seo-wordpress/ -->
+	<title>Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica</title>
+	<meta name="description" content="Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" />
+	<link rel="canonical" href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/sel_personal/" />
+	<link rel="next" href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/sel_personal/page/2/" />
+	<meta property="og:locale" content="es_ES" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" />
+	<meta property="og:description" content="Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" />
+	<meta property="og:url" content="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/sel_personal/" />
+	<meta property="og:site_name" content="Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" />
+	<meta property="og:image" content="https://www.lalfas.es/wp-content/uploads/2015/12/Tablon.png" />
+	<meta property="og:image:width" content="225" />
+	<meta property="og:image:height" content="71" />
+	<meta property="og:image:type" content="image/png" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" />
+	<meta name="twitter:description" content="Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" />
+	<meta name="twitter:image" content="https://www.lalfas.es/wp-content/uploads/2015/12/Tablon.png" />
+	<meta name="twitter:site" content="@lalfases" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https:\/\/schema.org","@graph":[{"@type":"CollectionPage","@id":"https:\/\/www.lalfas.es\/list-transparencia\/tablon-de-anuncios\/sel_personal\/","url":"https:\/\/www.lalfas.es\/list-transparencia\/tablon-de-anuncios\/sel_personal\/","name":"Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica","isPartOf":{"@id":"https:\/\/www.lalfas.es\/#website"},"description":"Selección de Personal Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica","breadcrumb":{"@id":"https:\/\/www.lalfas.es\/list-transparencia\/tablon-de-anuncios\/sel_personal\/#breadcrumb"},"inLanguage":"es"},{"@type":"BreadcrumbList","@id":"https:\/\/www.lalfas.es\/list-transparencia\/tablon-de-anuncios\/sel_personal\/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Portada","item":"https:\/\/www.lalfas.es\/"},{"@type":"ListItem","position":2,"name":"Portal de Transparencia","item":"https:\/\/www.lalfas.es\/list-transparencia\/"},{"@type":"ListItem","position":3,"name":"Tablón de Anuncios","item":"https:\/\/www.lalfas.es\/list-transparencia\/tablon-de-anuncios\/"},{"@type":"ListItem","position":4,"name":"Selección de Personal"}]},{"@type":"WebSite","@id":"https:\/\/www.lalfas.es\/#website","url":"https:\/\/www.lalfas.es\/","name":"Ayuntamiento de l'Alfàs del Pi | Sede Electrónica","description":"Página Oficial del Ayuntamiento de l&#039;Alfàs del Pi","publisher":{"@id":"https:\/\/www.lalfas.es\/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https:\/\/www.lalfas.es\/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"es"},{"@type":"Organization","@id":"https:\/\/www.lalfas.es\/#organization","name":"Ayuntamiento de l'Alfàs del Pi","url":"https:\/\/www.lalfas.es\/","logo":{"@type":"ImageObject","inLanguage":"es","@id":"https:\/\/www.lalfas.es\/#\/schema\/logo\/image\/","url":"https:\/\/www.lalfas.es\/wp-content\/uploads\/2015\/11\/logo.png","contentUrl":"https:\/\/www.lalfas.es\/wp-content\/uploads\/2015\/11\/logo.png","width":570,"height":139,"caption":"Ayuntamiento de l'Alfàs del Pi"},"image":{"@id":"https:\/\/www.lalfas.es\/#\/schema\/logo\/image\/"},"sameAs":["https:\/\/es-es.facebook.com\/Ayto.LAlfasdelpi","https:\/\/x.com\/lalfases","https:\/\/www.youtube.com\/user\/AlfasNoticias"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//www.lalfas.es' />
+<link rel="alternate" type="application/rss+xml" title="Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica &raquo; Feed" href="https://www.lalfas.es/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica &raquo; Feed de los comentarios" href="https://www.lalfas.es/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica &raquo; Categoría Selección de Personal del feed" href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/sel_personal/feed/" />
+<meta content="Divi v.4.27.7" name="generator"/><link rel='stylesheet' id='wpa-css-css' href='https://www.lalfas.es/wp-content/plugins/wp-attachments/styles/4/wpa.css?ver=1ed032980cbfd2bb4d55c574cfda3d6f' type='text/css' media='all' />
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:root { --wp--style--global--content-size: 823px;--wp--style--global--wide-size: 1080px; }:where(body) { margin: 0; }.wp-site-blocks > .alignleft { float: left; margin-right: 2em; }.wp-site-blocks > .alignright { float: right; margin-left: 2em; }.wp-site-blocks > .aligncenter { justify-content: center; margin-left: auto; margin-right: auto; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}.is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}.is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}.is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}.is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='WPPAS_VBC_BNR_STYLE-css' href='https://www.lalfas.es/wp-content/plugins/wppas/public/assets/css/vbc/wppas_vbc_bnr.css?ver=5.3.0' type='text/css' media='all' />
+<link rel='stylesheet' id='cmplz-general-css' href='https://www.lalfas.es/wp-content/plugins/complianz-gdpr/assets/css/cookieblocker.min.css?ver=1781920775' type='text/css' media='all' />
+<style id='divi-style-inline-inline-css' type='text/css'>
+/*!
+Theme Name: Divi
+Theme URI: http://www.elegantthemes.com/gallery/divi/
+Version: 4.27.7
+Description: Smart. Flexible. Beautiful. Divi is the most powerful theme in our collection.
+Author: Elegant Themes
+Author URI: http://www.elegantthemes.com
+License: GNU General Public License v2
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+a,abbr,acronym,address,applet,b,big,blockquote,body,center,cite,code,dd,del,dfn,div,dl,dt,em,fieldset,font,form,h1,h2,h3,h4,h5,h6,html,i,iframe,img,ins,kbd,label,legend,li,object,ol,p,pre,q,s,samp,small,span,strike,strong,sub,sup,tt,u,ul,var{margin:0;padding:0;border:0;outline:0;font-size:100%;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}blockquote{margin:20px 0 30px;border-left:5px solid;padding-left:20px}:focus{outline:0}del{text-decoration:line-through}pre{overflow:auto;padding:10px}figure{margin:0}table{border-collapse:collapse;border-spacing:0}article,aside,footer,header,hgroup,nav,section{display:block}body{font-family:Open Sans,Arial,sans-serif;font-size:14px;color:#666;background-color:#fff;line-height:1.7em;font-weight:500;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}body.page-template-page-template-blank-php #page-container{padding-top:0!important}body.et_cover_background{background-size:cover!important;background-position:top!important;background-repeat:no-repeat!important;background-attachment:fixed}a{color:#2ea3f2}a,a:hover{text-decoration:none}p{padding-bottom:1em}p:not(.has-background):last-of-type{padding-bottom:0}p.et_normal_padding{padding-bottom:1em}strong{font-weight:700}cite,em,i{font-style:italic}code,pre{font-family:Courier New,monospace;margin-bottom:10px}ins{text-decoration:none}sub,sup{height:0;line-height:1;position:relative;vertical-align:baseline}sup{bottom:.8em}sub{top:.3em}dl{margin:0 0 1.5em}dl dt{font-weight:700}dd{margin-left:1.5em}blockquote p{padding-bottom:0}embed,iframe,object,video{max-width:100%}h1,h2,h3,h4,h5,h6{color:#333;padding-bottom:10px;line-height:1em;font-weight:500}h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{color:inherit}h1{font-size:30px}h2{font-size:26px}h3{font-size:22px}h4{font-size:18px}h5{font-size:16px}h6{font-size:14px}input{-webkit-appearance:none}input[type=checkbox]{-webkit-appearance:checkbox}input[type=radio]{-webkit-appearance:radio}input.text,input.title,input[type=email],input[type=password],input[type=tel],input[type=text],select,textarea{background-color:#fff;border:1px solid #bbb;padding:2px;color:#4e4e4e}input.text:focus,input.title:focus,input[type=text]:focus,select:focus,textarea:focus{border-color:#2d3940;color:#3e3e3e}input.text,input.title,input[type=text],select,textarea{margin:0}textarea{padding:4px}button,input,select,textarea{font-family:inherit}img{max-width:100%;height:auto}.clear{clear:both}br.clear{margin:0;padding:0}.pagination{clear:both}#et_search_icon:hover,.et-social-icon a:hover,.et_password_protected_form .et_submit_button,.form-submit .et_pb_buttontton.alt.disabled,.nav-single a,.posted_in a{color:#2ea3f2}.et-search-form,blockquote{border-color:#2ea3f2}#main-content{background-color:#fff}.container{width:80%;max-width:1080px;margin:auto;position:relative}body:not(.et-tb) #main-content .container,body:not(.et-tb-has-header) #main-content .container{padding-top:58px}.et_full_width_page #main-content .container:before{display:none}.main_title{margin-bottom:20px}.et_password_protected_form .et_submit_button:hover,.form-submit .et_pb_button:hover{background:rgba(0,0,0,.05)}.et_button_icon_visible .et_pb_button{padding-right:2em;padding-left:.7em}.et_button_icon_visible .et_pb_button:after{opacity:1;margin-left:0}.et_button_left .et_pb_button:hover:after{left:.15em}.et_button_left .et_pb_button:after{margin-left:0;left:1em}.et_button_icon_visible.et_button_left .et_pb_button,.et_button_left .et_pb_button:hover,.et_button_left .et_pb_module .et_pb_button:hover{padding-left:2em;padding-right:.7em}.et_button_icon_visible.et_button_left .et_pb_button:after,.et_button_left .et_pb_button:hover:after{left:.15em}.et_password_protected_form .et_submit_button:hover,.form-submit .et_pb_button:hover{padding:.3em 1em}.et_button_no_icon .et_pb_button:after{display:none}.et_button_no_icon.et_button_icon_visible.et_button_left .et_pb_button,.et_button_no_icon.et_button_left .et_pb_button:hover,.et_button_no_icon .et_pb_button,.et_button_no_icon .et_pb_button:hover{padding:.3em 1em!important}.et_button_custom_icon .et_pb_button:after{line-height:1.7em}.et_button_custom_icon.et_button_icon_visible .et_pb_button:after,.et_button_custom_icon .et_pb_button:hover:after{margin-left:.3em}#left-area .post_format-post-format-gallery .wp-block-gallery:first-of-type{padding:0;margin-bottom:-16px}.entry-content table:not(.variations){border:1px solid #eee;margin:0 0 15px;text-align:left;width:100%}.entry-content thead th,.entry-content tr th{color:#555;font-weight:700;padding:9px 24px}.entry-content tr td{border-top:1px solid #eee;padding:6px 24px}#left-area ul,.entry-content ul,.et-l--body ul,.et-l--footer ul,.et-l--header ul{list-style-type:disc;padding:0 0 23px 1em;line-height:26px}#left-area ol,.entry-content ol,.et-l--body ol,.et-l--footer ol,.et-l--header ol{list-style-type:decimal;list-style-position:inside;padding:0 0 23px;line-height:26px}#left-area ul li ul,.entry-content ul li ol{padding:2px 0 2px 20px}#left-area ol li ul,.entry-content ol li ol,.et-l--body ol li ol,.et-l--footer ol li ol,.et-l--header ol li ol{padding:2px 0 2px 35px}#left-area ul.wp-block-gallery{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;list-style-type:none;padding:0}#left-area ul.products{padding:0!important;line-height:1.7!important;list-style:none!important}.gallery-item a{display:block}.gallery-caption,.gallery-item a{width:90%}#wpadminbar{z-index:100001}#left-area .post-meta{font-size:14px;padding-bottom:15px}#left-area .post-meta a{text-decoration:none;color:#666}#left-area .et_featured_image{padding-bottom:7px}.single .post{padding-bottom:25px}body.single .et_audio_content{margin-bottom:-6px}.nav-single a{text-decoration:none;color:#2ea3f2;font-size:14px;font-weight:400}.nav-previous{float:left}.nav-next{float:right}.et_password_protected_form p input{background-color:#eee;border:none!important;width:100%!important;border-radius:0!important;font-size:14px;color:#999!important;padding:16px!important;-webkit-box-sizing:border-box;box-sizing:border-box}.et_password_protected_form label{display:none}.et_password_protected_form .et_submit_button{font-family:inherit;display:block;float:right;margin:8px auto 0;cursor:pointer}.post-password-required p.nocomments.container{max-width:100%}.post-password-required p.nocomments.container:before{display:none}.aligncenter,div.post .new-post .aligncenter{display:block;margin-left:auto;margin-right:auto}.wp-caption{border:1px solid #ddd;text-align:center;background-color:#f3f3f3;margin-bottom:10px;max-width:96%;padding:8px}.wp-caption.alignleft{margin:0 30px 20px 0}.wp-caption.alignright{margin:0 0 20px 30px}.wp-caption img{margin:0;padding:0;border:0}.wp-caption p.wp-caption-text{font-size:12px;padding:0 4px 5px;margin:0}.alignright{float:right}.alignleft{float:left}img.alignleft{display:inline;float:left;margin-right:15px}img.alignright{display:inline;float:right;margin-left:15px}.page.et_pb_pagebuilder_layout #main-content{background-color:transparent}body #main-content .et_builder_inner_content>h1,body #main-content .et_builder_inner_content>h2,body #main-content .et_builder_inner_content>h3,body #main-content .et_builder_inner_content>h4,body #main-content .et_builder_inner_content>h5,body #main-content .et_builder_inner_content>h6{line-height:1.4em}body #main-content .et_builder_inner_content>p{line-height:1.7em}.wp-block-pullquote{margin:20px 0 30px}.wp-block-pullquote.has-background blockquote{border-left:none}.wp-block-group.has-background{padding:1.5em 1.5em .5em}@media (min-width:981px){#left-area{width:79.125%;padding-bottom:23px}#main-content .container:before{content:"";position:absolute;top:0;height:100%;width:1px;background-color:#e2e2e2}.et_full_width_page #left-area,.et_no_sidebar #left-area{float:none;width:100%!important}.et_full_width_page #left-area{padding-bottom:0}.et_no_sidebar #main-content .container:before{display:none}}@media (max-width:980px){#page-container{padding-top:80px}.et-tb #page-container,.et-tb-has-header #page-container{padding-top:0!important}#left-area,#sidebar{width:100%!important}#main-content .container:before{display:none!important}.et_full_width_page .et_gallery_item:nth-child(4n+1){clear:none}}@media print{#page-container{padding-top:0!important}}#wp-admin-bar-et-use-visual-builder a:before{font-family:ETmodules!important;content:"\e625";font-size:30px!important;width:28px;margin-top:-3px;color:#974df3!important}#wp-admin-bar-et-use-visual-builder:hover a:before{color:#fff!important}#wp-admin-bar-et-use-visual-builder:hover a,#wp-admin-bar-et-use-visual-builder a:hover{transition:background-color .5s ease;-webkit-transition:background-color .5s ease;-moz-transition:background-color .5s ease;background-color:#7e3bd0!important;color:#fff!important}* html .clearfix,:first-child+html .clearfix{zoom:1}.iphone .et_pb_section_video_bg video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}.et_mobile_device .et_pb_section_parallax .et_pb_parallax_css{background-attachment:scroll}.et-social-facebook a.icon:before{content:"\e093"}.et-social-twitter a.icon:before{content:"\e094"}.et-social-google-plus a.icon:before{content:"\e096"}.et-social-instagram a.icon:before{content:"\e09a"}.et-social-rss a.icon:before{content:"\e09e"}.ai1ec-single-event:after{content:" ";display:table;clear:both}.evcal_event_details .evcal_evdata_cell .eventon_details_shading_bot.eventon_details_shading_bot{z-index:3}.wp-block-divi-layout{margin-bottom:1em}*{-webkit-box-sizing:border-box;box-sizing:border-box}#et-info-email:before,#et-info-phone:before,#et_search_icon:before,.comment-reply-link:after,.et-cart-info span:before,.et-pb-arrow-next:before,.et-pb-arrow-prev:before,.et-social-icon a:before,.et_audio_container .mejs-playpause-button button:before,.et_audio_container .mejs-volume-button button:before,.et_overlay:before,.et_password_protected_form .et_submit_button:after,.et_pb_button:after,.et_pb_contact_reset:after,.et_pb_contact_submit:after,.et_pb_font_icon:before,.et_pb_newsletter_button:after,.et_pb_pricing_table_button:after,.et_pb_promo_button:after,.et_pb_testimonial:before,.et_pb_toggle_title:before,.form-submit .et_pb_button:after,.mobile_menu_bar:before,a.et_pb_more_button:after{font-family:ETmodules!important;speak:none;font-style:normal;font-weight:400;-webkit-font-feature-settings:normal;font-feature-settings:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-shadow:0 0;direction:ltr}.et-pb-icon,.et_pb_custom_button_icon.et_pb_button:after,.et_pb_login .et_pb_custom_button_icon.et_pb_button:after,.et_pb_woo_custom_button_icon .button.et_pb_custom_button_icon.et_pb_button:after,.et_pb_woo_custom_button_icon .button.et_pb_custom_button_icon.et_pb_button:hover:after{content:attr(data-icon)}.et-pb-icon{font-family:ETmodules;speak:none;font-weight:400;-webkit-font-feature-settings:normal;font-feature-settings:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;font-size:96px;font-style:normal;display:inline-block;-webkit-box-sizing:border-box;box-sizing:border-box;direction:ltr}#et-ajax-saving{display:none;-webkit-transition:background .3s,-webkit-box-shadow .3s;transition:background .3s,-webkit-box-shadow .3s;transition:background .3s,box-shadow .3s;transition:background .3s,box-shadow .3s,-webkit-box-shadow .3s;-webkit-box-shadow:rgba(0,139,219,.247059) 0 0 60px;box-shadow:0 0 60px rgba(0,139,219,.247059);position:fixed;top:50%;left:50%;width:50px;height:50px;background:#fff;border-radius:50px;margin:-25px 0 0 -25px;z-index:999999;text-align:center}#et-ajax-saving img{margin:9px}.et-safe-mode-indicator,.et-safe-mode-indicator:focus,.et-safe-mode-indicator:hover{-webkit-box-shadow:0 5px 10px rgba(41,196,169,.15);box-shadow:0 5px 10px rgba(41,196,169,.15);background:#29c4a9;color:#fff;font-size:14px;font-weight:600;padding:12px;line-height:16px;border-radius:3px;position:fixed;bottom:30px;right:30px;z-index:999999;text-decoration:none;font-family:Open Sans,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.et_pb_button{font-size:20px;font-weight:500;padding:.3em 1em;line-height:1.7em!important;background-color:transparent;background-size:cover;background-position:50%;background-repeat:no-repeat;border:2px solid;border-radius:3px;-webkit-transition-duration:.2s;transition-duration:.2s;-webkit-transition-property:all!important;transition-property:all!important}.et_pb_button,.et_pb_button_inner{position:relative}.et_pb_button:hover,.et_pb_module .et_pb_button:hover{border:2px solid transparent;padding:.3em 2em .3em .7em}.et_pb_button:hover{background-color:hsla(0,0%,100%,.2)}.et_pb_bg_layout_light.et_pb_button:hover,.et_pb_bg_layout_light .et_pb_button:hover{background-color:rgba(0,0,0,.05)}.et_pb_button:after,.et_pb_button:before{font-size:32px;line-height:1em;content:"\35";opacity:0;position:absolute;margin-left:-1em;-webkit-transition:all .2s;transition:all .2s;text-transform:none;-webkit-font-feature-settings:"kern" off;font-feature-settings:"kern" off;font-variant:none;font-style:normal;font-weight:400;text-shadow:none}.et_pb_button.et_hover_enabled:hover:after,.et_pb_button.et_pb_hovered:hover:after{-webkit-transition:none!important;transition:none!important}.et_pb_button:before{display:none}.et_pb_button:hover:after{opacity:1;margin-left:0}.et_pb_column_1_3 h1,.et_pb_column_1_4 h1,.et_pb_column_1_5 h1,.et_pb_column_1_6 h1,.et_pb_column_2_5 h1{font-size:26px}.et_pb_column_1_3 h2,.et_pb_column_1_4 h2,.et_pb_column_1_5 h2,.et_pb_column_1_6 h2,.et_pb_column_2_5 h2{font-size:23px}.et_pb_column_1_3 h3,.et_pb_column_1_4 h3,.et_pb_column_1_5 h3,.et_pb_column_1_6 h3,.et_pb_column_2_5 h3{font-size:20px}.et_pb_column_1_3 h4,.et_pb_column_1_4 h4,.et_pb_column_1_5 h4,.et_pb_column_1_6 h4,.et_pb_column_2_5 h4{font-size:18px}.et_pb_column_1_3 h5,.et_pb_column_1_4 h5,.et_pb_column_1_5 h5,.et_pb_column_1_6 h5,.et_pb_column_2_5 h5{font-size:16px}.et_pb_column_1_3 h6,.et_pb_column_1_4 h6,.et_pb_column_1_5 h6,.et_pb_column_1_6 h6,.et_pb_column_2_5 h6{font-size:15px}.et_pb_bg_layout_dark,.et_pb_bg_layout_dark h1,.et_pb_bg_layout_dark h2,.et_pb_bg_layout_dark h3,.et_pb_bg_layout_dark h4,.et_pb_bg_layout_dark h5,.et_pb_bg_layout_dark h6{color:#fff!important}.et_pb_module.et_pb_text_align_left{text-align:left}.et_pb_module.et_pb_text_align_center{text-align:center}.et_pb_module.et_pb_text_align_right{text-align:right}.et_pb_module.et_pb_text_align_justified{text-align:justify}.clearfix:after{visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0}.et_pb_bg_layout_light .et_pb_more_button{color:#2ea3f2}.et_builder_inner_content{position:relative;z-index:1}header .et_builder_inner_content{z-index:2}.et_pb_css_mix_blend_mode_passthrough{mix-blend-mode:unset!important}.et_pb_image_container{margin:-20px -20px 29px}.et_pb_module_inner{position:relative}.et_hover_enabled_preview{z-index:2}.et_hover_enabled:hover{position:relative;z-index:2}.et_pb_all_tabs,.et_pb_module,.et_pb_posts_nav a,.et_pb_tab,.et_pb_with_background{position:relative;background-size:cover;background-position:50%;background-repeat:no-repeat}.et_pb_background_mask,.et_pb_background_pattern{bottom:0;left:0;position:absolute;right:0;top:0}.et_pb_background_mask{background-size:calc(100% + 2px) calc(100% + 2px);background-repeat:no-repeat;background-position:50%;overflow:hidden}.et_pb_background_pattern{background-position:0 0;background-repeat:repeat}.et_pb_with_border{position:relative;border:0 solid #333}.post-password-required .et_pb_row{padding:0;width:100%}.post-password-required .et_password_protected_form{min-height:0}body.et_pb_pagebuilder_layout.et_pb_show_title .post-password-required .et_password_protected_form h1,body:not(.et_pb_pagebuilder_layout) .post-password-required .et_password_protected_form h1{display:none}.et_pb_no_bg{padding:0!important}.et_overlay.et_pb_inline_icon:before,.et_pb_inline_icon:before{content:attr(data-icon)}.et_pb_more_button{color:inherit;text-shadow:none;text-decoration:none;display:inline-block;margin-top:20px}.et_parallax_bg_wrap{overflow:hidden;position:absolute;top:0;right:0;bottom:0;left:0}.et_parallax_bg{background-repeat:no-repeat;background-position:top;background-size:cover;position:absolute;bottom:0;left:0;width:100%;height:100%;display:block}.et_parallax_bg.et_parallax_bg__hover,.et_parallax_bg.et_parallax_bg_phone,.et_parallax_bg.et_parallax_bg_tablet,.et_parallax_gradient.et_parallax_gradient__hover,.et_parallax_gradient.et_parallax_gradient_phone,.et_parallax_gradient.et_parallax_gradient_tablet,.et_pb_section_parallax_hover:hover .et_parallax_bg:not(.et_parallax_bg__hover),.et_pb_section_parallax_hover:hover .et_parallax_gradient:not(.et_parallax_gradient__hover){display:none}.et_pb_section_parallax_hover:hover .et_parallax_bg.et_parallax_bg__hover,.et_pb_section_parallax_hover:hover .et_parallax_gradient.et_parallax_gradient__hover{display:block}.et_parallax_gradient{bottom:0;display:block;left:0;position:absolute;right:0;top:0}.et_pb_module.et_pb_section_parallax,.et_pb_posts_nav a.et_pb_section_parallax,.et_pb_tab.et_pb_section_parallax{position:relative}.et_pb_section_parallax .et_pb_parallax_css,.et_pb_slides .et_parallax_bg.et_pb_parallax_css{background-attachment:fixed}body.et-bfb .et_pb_section_parallax .et_pb_parallax_css,body.et-bfb .et_pb_slides .et_parallax_bg.et_pb_parallax_css{background-attachment:scroll;bottom:auto}.et_pb_section_parallax.et_pb_column .et_pb_module,.et_pb_section_parallax.et_pb_row .et_pb_column,.et_pb_section_parallax.et_pb_row .et_pb_module{z-index:9;position:relative}.et_pb_more_button:hover:after{opacity:1;margin-left:0}.et_pb_preload .et_pb_section_video_bg,.et_pb_preload>div{visibility:hidden}.et_pb_preload,.et_pb_section.et_pb_section_video.et_pb_preload{position:relative;background:#464646!important}.et_pb_preload:before{content:"";position:absolute;top:50%;left:50%;background:url(https://www.lalfas.es/wp-content/themes/Divi/includes/builder/styles/images/preloader.gif) no-repeat;border-radius:32px;width:32px;height:32px;margin:-16px 0 0 -16px}.box-shadow-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:10;pointer-events:none}.et_pb_section>.box-shadow-overlay~.et_pb_row{z-index:11}body.safari .section_has_divider{will-change:transform}.et_pb_row>.box-shadow-overlay{z-index:8}.has-box-shadow-overlay{position:relative}.et_clickable{cursor:pointer}.screen-reader-text{border:0;clip:rect(1px,1px,1px,1px);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute!important;width:1px;word-wrap:normal!important}.et_multi_view_hidden,.et_multi_view_hidden_image{display:none!important}@keyframes multi-view-image-fade{0%{opacity:0}10%{opacity:.1}20%{opacity:.2}30%{opacity:.3}40%{opacity:.4}50%{opacity:.5}60%{opacity:.6}70%{opacity:.7}80%{opacity:.8}90%{opacity:.9}to{opacity:1}}.et_multi_view_image__loading{visibility:hidden}.et_multi_view_image__loaded{-webkit-animation:multi-view-image-fade .5s;animation:multi-view-image-fade .5s}#et-pb-motion-effects-offset-tracker{visibility:hidden!important;opacity:0;position:absolute;top:0;left:0}.et-pb-before-scroll-animation{opacity:0}header.et-l.et-l--header:after{clear:both;display:block;content:""}.et_pb_module{-webkit-animation-timing-function:linear;animation-timing-function:linear;-webkit-animation-duration:.2s;animation-duration:.2s}@-webkit-keyframes fadeBottom{0%{opacity:0;-webkit-transform:translateY(10%);transform:translateY(10%)}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}}@keyframes fadeBottom{0%{opacity:0;-webkit-transform:translateY(10%);transform:translateY(10%)}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}}@-webkit-keyframes fadeLeft{0%{opacity:0;-webkit-transform:translateX(-10%);transform:translateX(-10%)}to{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes fadeLeft{0%{opacity:0;-webkit-transform:translateX(-10%);transform:translateX(-10%)}to{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@-webkit-keyframes fadeRight{0%{opacity:0;-webkit-transform:translateX(10%);transform:translateX(10%)}to{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes fadeRight{0%{opacity:0;-webkit-transform:translateX(10%);transform:translateX(10%)}to{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@-webkit-keyframes fadeTop{0%{opacity:0;-webkit-transform:translateY(-10%);transform:translateY(-10%)}to{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@keyframes fadeTop{0%{opacity:0;-webkit-transform:translateY(-10%);transform:translateY(-10%)}to{opacity:1;-webkit-transform:translateX(0);transform:translateX(0)}}@-webkit-keyframes fadeIn{0%{opacity:0}to{opacity:1}}@keyframes fadeIn{0%{opacity:0}to{opacity:1}}.et-waypoint:not(.et_pb_counters){opacity:0}@media (min-width:981px){.et_pb_section.et_section_specialty div.et_pb_row .et_pb_column .et_pb_column .et_pb_module.et-last-child,.et_pb_section.et_section_specialty div.et_pb_row .et_pb_column .et_pb_column .et_pb_module:last-child,.et_pb_section.et_section_specialty div.et_pb_row .et_pb_column .et_pb_row_inner .et_pb_column .et_pb_module.et-last-child,.et_pb_section.et_section_specialty div.et_pb_row .et_pb_column .et_pb_row_inner .et_pb_column .et_pb_module:last-child,.et_pb_section div.et_pb_row .et_pb_column .et_pb_module.et-last-child,.et_pb_section div.et_pb_row .et_pb_column .et_pb_module:last-child{margin-bottom:0}}@media (max-width:980px){.et_overlay.et_pb_inline_icon_tablet:before,.et_pb_inline_icon_tablet:before{content:attr(data-icon-tablet)}.et_parallax_bg.et_parallax_bg_tablet_exist,.et_parallax_gradient.et_parallax_gradient_tablet_exist{display:none}.et_parallax_bg.et_parallax_bg_tablet,.et_parallax_gradient.et_parallax_gradient_tablet{display:block}.et_pb_column .et_pb_module{margin-bottom:30px}.et_pb_row .et_pb_column .et_pb_module.et-last-child,.et_pb_row .et_pb_column .et_pb_module:last-child,.et_section_specialty .et_pb_row .et_pb_column .et_pb_module.et-last-child,.et_section_specialty .et_pb_row .et_pb_column .et_pb_module:last-child{margin-bottom:0}.et_pb_more_button{display:inline-block!important}.et_pb_bg_layout_light_tablet.et_pb_button,.et_pb_bg_layout_light_tablet.et_pb_module.et_pb_button,.et_pb_bg_layout_light_tablet .et_pb_more_button{color:#2ea3f2}.et_pb_bg_layout_light_tablet .et_pb_forgot_password a{color:#666}.et_pb_bg_layout_light_tablet h1,.et_pb_bg_layout_light_tablet h2,.et_pb_bg_layout_light_tablet h3,.et_pb_bg_layout_light_tablet h4,.et_pb_bg_layout_light_tablet h5,.et_pb_bg_layout_light_tablet h6{color:#333!important}.et_pb_module .et_pb_bg_layout_light_tablet.et_pb_button{color:#2ea3f2!important}.et_pb_bg_layout_light_tablet{color:#666!important}.et_pb_bg_layout_dark_tablet,.et_pb_bg_layout_dark_tablet h1,.et_pb_bg_layout_dark_tablet h2,.et_pb_bg_layout_dark_tablet h3,.et_pb_bg_layout_dark_tablet h4,.et_pb_bg_layout_dark_tablet h5,.et_pb_bg_layout_dark_tablet h6{color:#fff!important}.et_pb_bg_layout_dark_tablet.et_pb_button,.et_pb_bg_layout_dark_tablet.et_pb_module.et_pb_button,.et_pb_bg_layout_dark_tablet .et_pb_more_button{color:inherit}.et_pb_bg_layout_dark_tablet .et_pb_forgot_password a{color:#fff}.et_pb_module.et_pb_text_align_left-tablet{text-align:left}.et_pb_module.et_pb_text_align_center-tablet{text-align:center}.et_pb_module.et_pb_text_align_right-tablet{text-align:right}.et_pb_module.et_pb_text_align_justified-tablet{text-align:justify}}@media (max-width:767px){.et_pb_more_button{display:inline-block!important}.et_overlay.et_pb_inline_icon_phone:before,.et_pb_inline_icon_phone:before{content:attr(data-icon-phone)}.et_parallax_bg.et_parallax_bg_phone_exist,.et_parallax_gradient.et_parallax_gradient_phone_exist{display:none}.et_parallax_bg.et_parallax_bg_phone,.et_parallax_gradient.et_parallax_gradient_phone{display:block}.et-hide-mobile{display:none!important}.et_pb_bg_layout_light_phone.et_pb_button,.et_pb_bg_layout_light_phone.et_pb_module.et_pb_button,.et_pb_bg_layout_light_phone .et_pb_more_button{color:#2ea3f2}.et_pb_bg_layout_light_phone .et_pb_forgot_password a{color:#666}.et_pb_bg_layout_light_phone h1,.et_pb_bg_layout_light_phone h2,.et_pb_bg_layout_light_phone h3,.et_pb_bg_layout_light_phone h4,.et_pb_bg_layout_light_phone h5,.et_pb_bg_layout_light_phone h6{color:#333!important}.et_pb_module .et_pb_bg_layout_light_phone.et_pb_button{color:#2ea3f2!important}.et_pb_bg_layout_light_phone{color:#666!important}.et_pb_bg_layout_dark_phone,.et_pb_bg_layout_dark_phone h1,.et_pb_bg_layout_dark_phone h2,.et_pb_bg_layout_dark_phone h3,.et_pb_bg_layout_dark_phone h4,.et_pb_bg_layout_dark_phone h5,.et_pb_bg_layout_dark_phone h6{color:#fff!important}.et_pb_bg_layout_dark_phone.et_pb_button,.et_pb_bg_layout_dark_phone.et_pb_module.et_pb_button,.et_pb_bg_layout_dark_phone .et_pb_more_button{color:inherit}.et_pb_module .et_pb_bg_layout_dark_phone.et_pb_button{color:#fff!important}.et_pb_bg_layout_dark_phone .et_pb_forgot_password a{color:#fff}.et_pb_module.et_pb_text_align_left-phone{text-align:left}.et_pb_module.et_pb_text_align_center-phone{text-align:center}.et_pb_module.et_pb_text_align_right-phone{text-align:right}.et_pb_module.et_pb_text_align_justified-phone{text-align:justify}}@media (max-width:479px){a.et_pb_more_button{display:block}}@media (min-width:768px) and (max-width:980px){[data-et-multi-view-load-tablet-hidden=true]:not(.et_multi_view_swapped){display:none!important}}@media (max-width:767px){[data-et-multi-view-load-phone-hidden=true]:not(.et_multi_view_swapped){display:none!important}}.et_pb_menu.et_pb_menu--style-inline_centered_logo .et_pb_menu__menu nav ul{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}@-webkit-keyframes multi-view-image-fade{0%{-webkit-transform:scale(1);transform:scale(1);opacity:1}50%{-webkit-transform:scale(1.01);transform:scale(1.01);opacity:1}to{-webkit-transform:scale(1);transform:scale(1);opacity:1}}
+/*# sourceURL=divi-style-inline-inline-css */
+</style>
+<link rel='stylesheet' id='divi-dynamic-css' href='https://www.lalfas.es/wp-content/et-cache/taxonomy/category/380/et-divi-dynamic.css?ver=1783863203' type='text/css' media='all' />
+<link rel='stylesheet' id='tablepress-default-css' href='https://www.lalfas.es/wp-content/plugins/tablepress/css/build/default.css?ver=3.3.3' type='text/css' media='all' />
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+<script type="text/javascript" id="jquery-js-after">
+/* <![CDATA[ */
+jqueryParams.length&&$.each(jqueryParams,function(e,r){if("function"==typeof r){var n=String(r);n.replace("$","jQuery");var a=new Function("return "+n)();$(document).ready(a)}});
+//# sourceURL=jquery-js-after
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/clipboard.min.js?ver=2.0.11" id="clipboard-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/plupload/moxie.min.js?ver=1.3.5.1" id="moxiejs-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/plupload/plupload.min.js?ver=2.1.9" id="plupload-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/underscore.min.js?ver=1.13.7" id="underscore-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/dist/dom-ready.min.js?ver=f77871ff7694fffea381" id="wp-dom-ready-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/dist/hooks.min.js?ver=dd5603f07f9220ed27f1" id="wp-hooks-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/dist/i18n.min.js?ver=c26c3dc7bed366793375" id="wp-i18n-js"></script>
+<script type="text/javascript" id="wp-i18n-js-after">
+/* <![CDATA[ */
+wp.i18n.setLocaleData( { 'text direction\u0004ltr': [ 'ltr' ] } );
+//# sourceURL=wp-i18n-js-after
+/* ]]> */
+</script>
+<script type="text/javascript" id="wp-a11y-js-translations">
+/* <![CDATA[ */
+( function( domain, translations ) {
+	var localeData = translations.locale_data[ domain ] || translations.locale_data.messages;
+	localeData[""].domain = domain;
+	wp.i18n.setLocaleData( localeData, domain );
+} )( "default", {"translation-revision-date":"2026-06-13 15:22:18+0000","generator":"GlotPress\/4.0.3","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","plural-forms":"nplurals=2; plural=n != 1;","lang":"es"},"Notifications":["Avisos"]}},"comment":{"reference":"wp-includes\/js\/dist\/a11y.js"}} );
+//# sourceURL=wp-a11y-js-translations
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/dist/a11y.min.js?ver=cb460b4676c94bd228ed" id="wp-a11y-js"></script>
+<script type="text/javascript" id="plupload-handlers-js-extra">
+/* <![CDATA[ */
+var pluploadL10n = {"queue_limit_exceeded":"Has intentado poner en cola demasiados archivos.","file_exceeds_size_limit":"El tama\u00f1o del archivo %s excede el tama\u00f1o permitido en este sitio.","zero_byte_file":"Este archivo est\u00e1 vac\u00edo. Por favor, prueba con otro.","invalid_filetype":"El archivo no lo ha podido procesar el servidor web.","not_an_image":"Este archivo no es una imagen. Por favor, prueba con otro.","image_memory_exceeded":"Memoria excedida. Por favor, prueba con otro archivo m\u00e1s peque\u00f1o.","image_dimensions_exceeded":"Supera el tama\u00f1o permitido. Por favor, prueba con otro.","default_error":"Ha habido un error en la subida. Por favor, int\u00e9ntalo m\u00e1s tarde.","missing_upload_url":"Ha habido un error de configuraci\u00f3n. Por favor, contacta con el  administrador del servidor.","upload_limit_exceeded":"Solo puedes subir 1 archivo.","http_error":"Respuesta inesperada del servidor. El archivo puede haber sido subido correctamente. Comprueba la biblioteca de medios o recarga la p\u00e1gina.","http_error_image":"El servidor no puede procesar la imagen. Esto puede ocurrir si el servidor est\u00e1 ocupado o no tiene suficientes recursos para completar la tarea. Puede ayudar el subir una imagen m\u00e1s peque\u00f1a. El tama\u00f1o m\u00e1ximo sugerido es de 2560 p\u00edxeles.","upload_failed":"Subida fallida.","big_upload_failed":"Por favor, intenta subir este archivo a trav\u00e9s del %1$snavegador%2$s.","big_upload_queued":"%s excede el tama\u00f1o m\u00e1ximo de subida del cargador de m\u00faltiples archivos del navegador.","io_error":"Error de entrada/salida.","security_error":"Error de seguridad.","file_cancelled":"Archivo cancelado.","upload_stopped":"Subida detenida.","dismiss":"Descartar","crunching":"Calculando\u2026","deleted":"movidos a la papelera.","error_uploading":"Ha habido un error al subir \u00ab%s\u00bb","unsupported_image":"Esta imagen no se puede mostrar en un navegador web. Antes de subirla, para un mejor resultado, convi\u00e9rtela a JPEG.","noneditable_image":"El servidor web no puede generar tama\u00f1os de imagen adaptables para esta imagen. Convi\u00e9rtela a JPEG o PNG antes de subirla.","file_url_copied":"La URL del archivo ha sido copiada a tu portapapeles"};
+//# sourceURL=plupload-handlers-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/plupload/handlers.min.js?ver=1ed032980cbfd2bb4d55c574cfda3d6f" id="plupload-handlers-js"></script>
+<script type="text/javascript" id="wppas_vbc_upload-js-extra">
+/* <![CDATA[ */
+var wppas_vbc_upload = {"ajaxurl":"https://www.lalfas.es/wp-admin/admin-ajax.php","nonce":"e8c22d3e81","remove":"a67eb62c80","number":"1","upload_enabled":"1","confirmMsg":"Are you sure you want to delete this?","plupload":{"runtimes":"html5,flash,html4","browse_button":"wppas-vbc-uploader","container":"wppas-vbc-upload-container","file_data_name":"wppas_vbc_upload_file","max_file_size":"100000000b","url":"https://www.lalfas.es/wp-admin/admin-ajax.php?action=wppas_vbc_upload&nonce=6b2b349f9e","flash_swf_url":"https://www.lalfas.es/wp-includes/js/plupload/plupload.flash.swf","filters":[{"title":"Archivos permitidos","extensions":"jpg,gif,png"}],"multipart":true,"urlstream_upload":true,"multipart_params":{"upload_folder":""}}};
+//# sourceURL=wppas_vbc_upload-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/public/assets/js/vbc/AjaxUpload.js?ver=1ed032980cbfd2bb4d55c574cfda3d6f" id="wppas_vbc_upload-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/templates/js/advertising.js?ver=1ed032980cbfd2bb4d55c574cfda3d6f" id="wppas_dummy_advertising-js"></script>
+<link rel="https://api.w.org/" href="https://www.lalfas.es/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://www.lalfas.es/wp-json/wp/v2/categories/380" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.lalfas.es/xmlrpc.php?rsd" />
+			<style>.cmplz-hidden {
+					display: none !important;
+				}</style><link rel="apple-touch-icon" sizes="57x57" href="/wp-content/uploads/fbrfg/apple-touch-icon-57x57.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="60x60" href="/wp-content/uploads/fbrfg/apple-touch-icon-60x60.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="72x72" href="/wp-content/uploads/fbrfg/apple-touch-icon-72x72.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="76x76" href="/wp-content/uploads/fbrfg/apple-touch-icon-76x76.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="114x114" href="/wp-content/uploads/fbrfg/apple-touch-icon-114x114.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="120x120" href="/wp-content/uploads/fbrfg/apple-touch-icon-120x120.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="144x144" href="/wp-content/uploads/fbrfg/apple-touch-icon-144x144.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="152x152" href="/wp-content/uploads/fbrfg/apple-touch-icon-152x152.png?v=Lb5EMP7qpL">
+<link rel="apple-touch-icon" sizes="180x180" href="/wp-content/uploads/fbrfg/apple-touch-icon-180x180.png?v=Lb5EMP7qpL">
+<link rel="icon" type="image/png" href="/wp-content/uploads/fbrfg/favicon-32x32.png?v=Lb5EMP7qpL" sizes="32x32">
+<link rel="icon" type="image/png" href="/wp-content/uploads/fbrfg/favicon-194x194.png?v=Lb5EMP7qpL" sizes="194x194">
+<link rel="icon" type="image/png" href="/wp-content/uploads/fbrfg/favicon-96x96.png?v=Lb5EMP7qpL" sizes="96x96">
+<link rel="icon" type="image/png" href="/wp-content/uploads/fbrfg/android-chrome-192x192.png?v=Lb5EMP7qpL" sizes="192x192">
+<link rel="icon" type="image/png" href="/wp-content/uploads/fbrfg/favicon-16x16.png?v=Lb5EMP7qpL" sizes="16x16">
+<link rel="manifest" href="/wp-content/uploads/fbrfg/manifest.json?v=Lb5EMP7qpL">
+<link rel="shortcut icon" href="/wp-content/uploads/fbrfg/favicon.ico?v=Lb5EMP7qpL">
+<meta name="apple-mobile-web-app-title" content="l'Alfàs del Pi">
+<meta name="application-name" content="l'Alfàs del Pi">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="msapplication-TileImage" content="/wp-content/uploads/fbrfg/mstile-144x144.png?v=Lb5EMP7qpL">
+<meta name="msapplication-config" content="/wp-content/uploads/fbrfg/browserconfig.xml?v=Lb5EMP7qpL">
+<meta name="theme-color" content="#dec9c9"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><link rel="shortcut icon" href="https://www.lalfas.es/favicon.ico" /><prtg test="load"></prtg><link rel="stylesheet" id="et-divi-customizer-global-cached-inline-styles" href="https://www.lalfas.es/wp-content/et-cache/global/et-divi-customizer-global.min.css?ver=1783063066" /><link rel='stylesheet' id='wp_pro_add_style-css' href='https://www.lalfas.es/wp-content/plugins/wppas/templates/css/wppas.min.css?ver=5.3.0' type='text/css' media='all' />
+<link rel='stylesheet' id='wppas_php_style-css' href='https://www.lalfas.es/wp-content/plugins/wppas/templates/css/wppas_custom_css.css?ver=1ed032980cbfd2bb4d55c574cfda3d6f' type='text/css' media='all' />
+<style id='wppas_php_style-inline-css' type='text/css'>
+
+			/* ----------------------------------------------------------------
+			 * WP PRO ADVERTISING SYSTEM - ADZONES
+			 * ---------------------------------------------------------------- */
+			.Short img {
+				max-width: 100%;
+				height:auto;
+			}
+			.Short {overflow:hidden; visibility: visible !important; display: inherit !important; }
+			.pas_fly_in .Short {visibility: hidden !important; }
+			.pas_fly_in.showing .Short {visibility: visible !important; }
+			
+			.wppasrotate, .Short li { margin: 0; padding:0; list-style: none; }
+			.rotating_paszone > .pasli { visibility:hidden; }
+			.Short .jshowoff .wppasrotate .pasli { visibility: inherit; }
+		
+/*# sourceURL=wppas_php_style-inline-css */
+</style>
+
+</head>
+<body data-rsssl=1 class="archive category category-sel_personal category-380 wp-theme-Divi et_pb_button_helper_class et_fixed_nav et_show_nav et_primary_nav_dropdown_animation_expand et_secondary_nav_dropdown_animation_slide et_header_style_left et_pb_footer_columns3 et_boxed_layout et_pb_gutter et_pb_gutters2 et_smooth_scroll et_right_sidebar et_divi_theme et-db">
+	<div id="page-container">
+
+	
+	
+			<header id="main-header" data-height-onload="66">
+			<div class="container clearfix et_menu_container">
+							<div class="logo_container">
+					<span class="logo_helper"></span>
+					<a href="https://www.lalfas.es/">
+						<img src="https://www.lalfas.es/wp-content/uploads/2015/11/COMPO_LOGO-WP.png" width="570" height="139" alt="Ayuntamiento de l&#039;Alfàs del Pi | Sede Electrónica" id="logo" data-height-percentage="60" />
+					</a>
+				</div>
+							<div id="et-top-navigation" data-height="66" data-fixed-height="40">
+											<nav id="top-menu-nav">
+						<ul id="top-menu" class="nav"><li id="menu-item-8373" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8373"><a href="https://www.lalfas.es/laciudad/">La Ciudad</a></li>
+<li id="menu-item-8375" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-8375"><a href="https://www.lalfas.es/gobierno/">Gobierno Municipal</a>
+<ul class="sub-menu">
+	<li id="menu-item-8376" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8376"><a href="https://www.lalfas.es/gobierno/alcalde/">Saluda del Alcalde</a></li>
+	<li id="menu-item-8381" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8381"><a href="https://www.lalfas.es/transparencia/institucional/estructura/elpleno/">Pleno</a></li>
+	<li id="menu-item-8382" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8382"><a href="https://www.lalfas.es/transparencia/institucional/estructura/junta-de-gobierno/">Junta de Gobierno</a></li>
+	<li id="menu-item-8950" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8950"><a href="https://www.lalfas.es/transparencia/institucional/estructura/comisiones/">Comisiones Informativas</a></li>
+	<li id="menu-item-8379" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8379"><a href="https://www.lalfas.es/transparencia/institucional/estructura/delegaciones/">Concejales Delegados</a></li>
+	<li id="menu-item-8780" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8780"><a href="https://www.lalfas.es/gobierno/cartapacio-2015-2019/">Cartapacio 2015 – 2019</a></li>
+	<li id="menu-item-37663" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-37663"><a href="https://www.lalfas.es/gobierno/cartapacio-2019-2023/">Cartapacio 2019 – 2023</a></li>
+	<li id="menu-item-75011" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75011"><a href="https://www.lalfas.es/gobierno/cartapacio-2023-2027/">Cartapacio 2023 &#8211; 2027</a></li>
+</ul>
+</li>
+<li id="menu-item-8386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-8386"><a href="https://www.lalfas.es/transparencia/">Portal de Transparencia</a>
+<ul class="sub-menu">
+	<li id="menu-item-8387" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8387"><a href="https://www.lalfas.es/transparencia/institucional/">Institucional</a></li>
+	<li id="menu-item-8388" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8388"><a href="https://www.lalfas.es/transparencia/normativa/">Normativa</a></li>
+	<li id="menu-item-8389" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8389"><a href="https://www.lalfas.es/transparencia/economica/">Económica</a></li>
+</ul>
+</li>
+<li id="menu-item-8390" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-8390"><a href="https://www.lalfas.es/servicios/">Servicios Municipales</a>
+<ul class="sub-menu">
+	<li id="menu-item-9503" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9503"><a href="https://www.lalfas.es/servicios/bienestar-social/">Bienestar Social</a></li>
+	<li id="menu-item-9497" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9497"><a href="https://www.lalfas.es/servicios/cultura/">Cultura</a></li>
+	<li id="menu-item-9498" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9498"><a href="https://www.lalfas.es/servicios/deportes/">Deportes</a></li>
+	<li id="menu-item-9499" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9499"><a href="https://www.lalfas.es/servicios/educacion/">Educación</a></li>
+	<li id="menu-item-9500" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9500"><a href="https://www.lalfas.es/servicios/hacienda/">Hacienda</a></li>
+	<li id="menu-item-9501" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9501"><a href="https://www.lalfas.es/servicios/juventud/">Juventud</a></li>
+	<li id="menu-item-9502" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-9502"><a href="https://www.lalfas.es/servicios/urbanismo/">Urbanismo</a></li>
+	<li id="menu-item-9504" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9504"><a href="/servicios/">Todos los Servicios</a></li>
+</ul>
+</li>
+<li id="menu-item-8402" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-8402"><a href="https://ciudadano.lalfas.es">Portal de la Ciudadanía</a></li>
+</ul>						</nav>
+					
+					
+					
+											<div id="et_top_search">
+							<span id="et_search_icon"></span>
+						</div>
+					
+					<div id="et_mobile_nav_menu">
+				<div class="mobile_nav closed">
+					<span class="select_page">Select Page</span>
+					<span class="mobile_menu_bar mobile_menu_bar_toggle"></span>
+				</div>
+			</div>				</div> <!-- #et-top-navigation -->
+			</div> <!-- .container -->
+						<div class="et_search_outer">
+				<div class="container et_search_form_container">
+					<form role="search" method="get" class="et-search-form" action="https://www.lalfas.es/">
+					<input type="search" class="et-search-field" placeholder="Search &hellip;" value="" name="s" title="Search for:" />					</form>
+					<span class="et_close_search_field"></span>
+				</div>
+			</div>
+					</header> <!-- #main-header -->
+			<div id="et-main-area">
+	
+<div id="main-content">
+	<div class="container">
+		<div id="content-area" class="clearfix">
+			<div id="left-area">
+		
+					<article id="post-121671" class="et_pb_post post-121671 post type-post status-publish format-standard hentry category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/convocatoria-y-bases-especificas-para-la-creacion-de-una-bolsa-de-trabajo-temporal-de-agentes-de-igualdad/">CONVOCATORIA Y BASES ESPECÍFICAS PARA LA CREACIÓN DE UNA BOLSA DE TRABAJO TEMPORAL DE AGENTES DE IGUALDAD</a></h2>
+					
+					<p class="post-meta"><span class="published">lunes, 18 mayo 2026 , 09:46</span></p>Adjuntos RESOLUCIÓN LISTADO PROVISIONAL PERSONAS ADMITIDAS Y EXCLUÍDAS • 285 kB 5 junio, 2026EDICTO BOP nº91 de 18-05-26 • 321 kB 18 mayo, 2026Rectificación_ACUERDO JGL APROBACIÓN BASES • 220 kB 18 mayo, 2026ACUERDO JGL APROBACIÓN BASES • 231 kB 18 mayo,...				
+					</article>
+			
+					<article id="post-117798" class="et_pb_post post-117798 post type-post status-publish format-standard hentry category-empleo_publico category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/bases-especificas-y-convocatoria-del-proceso-de-seleccion-para-la-provision-mediante-promocion-interna-de-una-plaza-de-oficial-de-policia-local/">BASES ESPECÍFICAS Y CONVOCATORIA DEL PROCESO DE SELECCIÓN PARA LA PROVISIÓN  MEDIANTE PROMOCIÓN INTERNA DE UNA PLAZA DE OFICIAL DE POLICÍA LOCAL</a></h2>
+					
+					<p class="post-meta"><span class="published">martes, 10 febrero 2026 , 11:29</span></p>Adjuntos BOP ALICANTE NÚM 98 DE 27_05_2026 LISTA PROVISIONAL DE ADMITIDOS_AS Y EXCLUIDOS_AS • 364 kB 27 mayo, 2026BOE NÚM 76 DE 27_03_2026 CONVOCATORIA • 180 kB 27 marzo, 2026DOGV NÚM 10324 DE 17_03_2026 ANUNCI EXTRACTE CONVOCATÒRIA I BASES • 386 kB 17 marzo, 2026DOGV...				
+					</article>
+			
+					<article id="post-113165" class="et_pb_post post-113165 post type-post status-publish format-standard hentry category-list-transparencia category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/convocatoria-y-bases-especificas-para-la-creacion-de-una-bolsa-de-trabajo-temporal-de-administrativos_as-de-administracion-general/">CONVOCATORIA Y BASES ESPECÍFICAS PARA LA CREACIÓN DE UNA BOLSA DE TRABAJO TEMPORAL DE ADMINISTRATIVOS_AS DE ADMINISTRACIÓN GENERAL</a></h2>
+					
+					<p class="post-meta"><span class="published">miércoles, 15 octubre 2025 , 13:44</span></p>Adjuntos ANUNCIO FASE CONCURSO DE MÉRITOS • 69 kB 4 junio, 2026ACTA FASE CONCURSO BOLSA ADMINISTRATIVOS_AS • 99 kB 4 junio, 2026ACTA RESULTADOS DEL SEGUNDO EJERCICIO FASE OPOSICIÓN • 418 kB 20 abril, 2026RECTIFICACIÓN ANUNCIO RESULTADOS PRIMER EJERCICIO FASE OPOSICIÓN...				
+					</article>
+			
+					<article id="post-110690" class="et_pb_post post-110690 post type-post status-publish format-standard hentry category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/convocatoria-y-bases-especificas-del-proceso-selectivo-para-provision-en-propiedad-de-una-plaza-de-biblioteconomista/">CONVOCATORIA Y BASES ESPECÍFICAS DEL PROCESO SELECTIVO PARA PROVISIÓN EN PROPIEDAD DE UNA PLAZA DE BIBLIOTECONOMISTA</a></h2>
+					
+					<p class="post-meta"><span class="published">viernes, 18 julio 2025 , 09:21</span></p>Adjuntos BOP ALICANTE NÚM 48 DE 11_03_2026 PUBLICACIÓN NOMBRAMIENTO PERSONAL FUNCIONARIO DE CARRERA • 834 kB 11 marzo, 2026ACTA CONCURSO Y FINAL • 77 kB 6 febrero, 2026ANUNCIO PUNTUACIÓN PRIMER EJERCICIO FASE OPOSICIÓN • 52 kB 8 enero, 2026BOP NÚM 231 03_12_2025...				
+					</article>
+			
+					<article id="post-103278" class="et_pb_post post-103278 post type-post status-publish format-standard hentry category-list-transparencia category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/resolucion-de-constitucion-de-la-bolsa-de-trabajo-de-agentes-de-policia-local-del-ayuntamiento-de-lalfas-del-pi/">RESOLUCIÓN DE CONSTITUCIÓN DE LA BOLSA DE TRABAJO DE AGENTES DE POLICÍA LOCAL DEL AYUNTAMIENTO DE L&#8217;ALFÀS DEL PI</a></h2>
+					
+					<p class="post-meta"><span class="published">jueves, 16 enero 2025 , 14:07</span></p>Adjuntos RESOLUCIÓN DE CONSTITUCIÓN DE LA BOLSA DE TRABAJO DE AGENTES DE POLICÍA LOCAL DEL AYUNTAMIENTO DE L&#039;ALFÀS DEL PI • 136 kB 16 enero,...				
+					</article>
+			
+					<article id="post-102571" class="et_pb_post post-102571 post type-post status-publish format-standard hentry category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/convocatoria-y-bases-especificas-del-proceso-selectivo-para-provision-en-propiedad-de-dos-plazas-de-subalterno-a-polideportivo/">CONVOCATORIA Y BASES ESPECÍFICAS DEL PROCESO SELECTIVO PARA PROVISIÓN EN PROPIEDAD DE DOS PLAZAS DE SUBALTERNO/A POLIDEPORTIVO</a></h2>
+					
+					<p class="post-meta"><span class="published">jueves, 19 diciembre 2024 , 09:26</span></p>Adjuntos CONSTITUCIÓN DE LA BOLSA DE TRABAJO DE SUBALTERNOS_AS POLIDEPORTIVO • 121 kB 30 junio, 2026ANUNCIO CALIFICACIÓN FINAL PROCESO SELECTIVO • 78 kB 23 junio, 2026ACTA FINAL PROCESO DE SELECCIÓN 22_06_2026 • 141 kB 23 junio, 2026CERTIFICADO DECRETO TRÁMITE DE...				
+					</article>
+			
+					<article id="post-96131" class="et_pb_post post-96131 post type-post status-publish format-standard hentry category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/bases-y-convocatoria-proceso-provision-definitiva-jefatura-negociado-planeamiento-y-gestion-del-servicio-de-urbanismo/">BASES Y CONVOCATORIA PROCESO PROVISIÓN DEFINITIVA JEFATURA NEGOCIADO PLANEAMIENTO Y GESTIÓN DEL SERVICIO DE URBANISMO</a></h2>
+					
+					<p class="post-meta"><span class="published">martes, 23 julio 2024 , 09:17</span></p>Adjuntos ANUNCIO CALIFICACION FINAL • 54 kB 20 septiembre, 2024ACTA CALIFICACIÓN PRUEBAS SELECTIVAS JEFATURA NEGOCIADO PLANEAMIENTO Y GESTIÓN DE URBANISMO • 428 kB 18 septiembre, 2024ANUNCIO PUNTUACIONES FINALES • 46 kB 13 septiembre, 2024RESOLUCIÓN LISTA DEFINITIVA...				
+					</article>
+			
+					<article id="post-93155" class="et_pb_post post-93155 post type-post status-publish format-standard hentry category-list-transparencia category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/constitucion-bolsa-de-administrativos-as-proceso-estabilizacion/">CONSTITUCIÓN BOLSA DE ADMINISTRATIVOS/AS PROCESO ESTABILIZACIÓN</a></h2>
+					
+					<p class="post-meta"><span class="published">lunes, 20 mayo 2024 , 09:22</span></p>Adjuntos CONSTITUCIÓN BOLSA EMPLEO DE ADMINISTRATIVOS_AS_BAS-3233-2022 • 291 kB 20 mayo,...				
+					</article>
+			
+					<article id="post-90049" class="et_pb_post post-90049 post type-post status-publish format-standard hentry category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/bolsa-de-trabajo-oficial-a-brigada-de-obras/">BOLSA DE TRABAJO OFICIAL/A BRIGADA DE OBRAS</a></h2>
+					
+					<p class="post-meta"><span class="published">miércoles, 27 marzo 2024 , 09:37</span></p>Adjuntos RESOLUCIÓN CONSTITUCIÓN BOLSA OFICIALES_AS BRIGADA DE OBRAS • 388 kB 22 julio, 2024ACTA TERCER EJERCICIO Y CALIFICACIÓN FINAL • 538 kB 18 julio, 2024ACTA SEGUNDO EJERCICIO Y CONVOCATORIA TERCER EJERCICIO • 451 kB 2 julio, 2024ACTA APERTURA SOBRES PRIMER...				
+					</article>
+			
+					<article id="post-88531" class="et_pb_post post-88531 post type-post status-publish format-standard hentry category-sel_personal category-tablon-de-anuncios">
+
+				
+															<h2 class="entry-title"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/bolsa-de-trabajo-peon-brigada-de-obras/">BOLSA DE TRABAJO PEÓN_A BRIGADA DE OBRAS</a></h2>
+					
+					<p class="post-meta"><span class="published">viernes, 1 marzo 2024 , 11:04</span></p>Adjuntos ACUERDO CONSTITUCIÓN BOLSA PEONES_AS BRIGADA DE OBRAS • 149 kB 12 julio, 2024ACTA TERCER EJERCICIO • 2 MB 3 julio, 2024ACTA SEGUNDO EJERCICIO 12_06_2024 • 4 MB 20 junio, 2024ANUNCIO PRIMER EJERCICIO FASE OPOSICIÓN • 74 kB 30 mayo, 2024ACTA PRIMER EJERCICIO...				
+					</article>
+			<div class="pagination clearfix">
+	<div class="alignleft"><a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/sel_personal/page/2/" >&laquo; Older Entries</a></div>
+	<div class="alignright"></div>
+</div>			</div>
+
+				<div id="sidebar">
+		<div id="wppas_custom_widgets-4" class="et_pb_widget Short"><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: pciudadano-9079',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 03-banners-fijos-escritorio-17725',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: pcontratante-9081',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 3-zona-banners-9122',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: spersonal-9080',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 3-zona-banners-9122',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: bsugerencias-9083',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 3-zona-banners-9122',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: tanuncios-2-9082',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 3-zona-banners-9122',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: clipalfas-9120',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: plan-de-recuperacion-transformacion-y-resiliencia-74285',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: pcultural-9115',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: cultura-2-9073',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: 46722-46722',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: 10-fijo-meteo-d-98838',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: agenda-urbana-98995',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: agenda-urbana-61825',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: destino-saludable-25247',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: guia2016-15883',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: ayuntamiento-9072',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: voluntariado-social-51662',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: voluntariado-social-51660',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: 26414-26414',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: medio-ambiente-26411',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: edusilalfas-40383',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: gabinete-de-prensa-40381',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads banner statistics', 'impressions', 'banner: agenda-urbana-d-2-103333',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads adzone statistics', 'impressions', 'adzone: 02-banners-campanas-escritorio-17705',{nonInteraction: true});}</script><script>if(typeof wppas_ga != 'undefined'){wppas_ga('send', 'event', 'wpproads advertiser statistics', 'impressions', 'advertiser: convocatoria-planes-edil-feder-21-27-103334',{nonInteraction: true});}</script><!-- BANNERS FIJOS -->
+<div  class="paszone_container paszone-container-17725   " id="paszonecont_17725" style="overflow:hidden;  text-align:center;  " ><div class="pasinfotxt above"><small style="font-size:11px; color:#C0C0C0; text-decoration:none;"></small></div><div class="Short paszone-17725 " id="17725" style="overflow:hidden;  width:100%; height:auto;  text-align:center; "><div class="wppasrotate   paszoneholder-17725" style="" ><div class="pasli pasli-9079 "  data-duration="5000" bid="9079" aid="17725"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/pciudadano/03-banners-fijos-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2015/12/sede.png?pas=15410616332607121605" alt="1 &#8211; FIJO &#8211; Administración Electronica" border="0"  /></a></div></div></div></div>
+<!-- BANNERS GENERICOS --> 
+<div  class="paszone_container paszone-container-9122   " id="paszonecont_9122" style="overflow:hidden;  text-align:center;  " ><div class="pasinfotxt above"><small style="font-size:11px; color:#C0C0C0; text-decoration:none;"></small></div><div class="Short paszone-9122 " id="9122" style="overflow:hidden;  width:100%; height:auto;  text-align:center; "><div class="wppasrotate   paszoneholder-9122" style="" ><div class="pasli pasli-9081 "  data-duration="5000" bid="9081" aid="9122"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/pcontratante/3-zona-banners/0" target="_blank" rel="nofollow"><img src="https://www.lalfas.es/wp-content/uploads/2015/12/Perfil.png?pas=10669872062607121605" alt="3 &#8211; FIJO &#8211; Perfil del Contratante" border="0"  /></a></div><div class="pasli pasli-9080 "  data-duration="5000" bid="9080" aid="9122"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/spersonal/3-zona-banners/0" target="_blank" rel="nofollow"><img src="https://www.lalfas.es/wp-content/uploads/2015/12/Seleccion-de-personal.png?pas=18313101612607121605" alt="2 &#8211; FIJO &#8211; Selección de Personal" border="0"  /></a></div><div class="pasli pasli-9083 "  data-duration="5000" bid="9083" aid="9122"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/bsugerencias/3-zona-banners/0" target="_blank" rel="nofollow"><img src="https://www.lalfas.es/wp-content/uploads/2015/12/buzon.png?pas=11233106962607121605" alt="5 &#8211; FIJOS &#8211; Buzón de Sugerencias" border="0"  /></a></div><div class="pasli pasli-9082 "  data-duration="5000" bid="9082" aid="9122"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/tanuncios-2/3-zona-banners/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2015/12/Tablon.png?pas=17842747392607121605" alt="4 &#8211; FIJO &#8211; Tablón de Anuncios" border="0"  /></a></div></div></div></div>
+<!-- METEOBOX -->
+
+<!-- BANNERS CAMPAÑAS -->
+<div  class="Short paszone-17705 wpproadgrid " style="overflow:hidden; text-align:center; "><div style="display:inline-block;"><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-9120 "  data-duration="5000" bid="9120" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/clipalfas/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2020/07/Banner-cliplalfas-3.jpg?pas=13670352082607121605" alt="1d &#8211;  ClipLalfas" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-74285 "  data-duration="5000" bid="74285" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/plan-de-recuperacion-transformacion-y-resiliencia/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2023/05/LOGO-PRT_ok.jpg?pas=3462695442607121605" alt="Plan de Recuperación Transformacion y Resiliencia." border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-9115 "  data-duration="5000" bid="9115" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/pcultural/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2021/02/cultura_02_2021.jpg?pas=16970824922607121605" alt="1b &#8211; Programación Cultural" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-46722 "  data-duration="5000" bid="46722" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/46722/02-banners-campanas-escritorio/0" target="_blank" rel="nofollow"><img src="https://www.lalfas.es/wp-content/uploads/2020/07/Banner-Parkings.jpg?pas=12277068752607121605" alt="Parking de l&#8217;Alfàs" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-98838 "  data-duration="5000" bid="98838" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/10-fijo-meteo-d/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2024/10/Inforatge-ban.jpg?pas=2329877782607121605" alt="11 – FIJO – Meteo &#8212;" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-98995 "  data-duration="5000" bid="98995" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/agenda-urbana/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2024/10/Agenda-Urbana.jpg?pas=10760785262607121605" alt="Agenda Urbana" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-25247 "  data-duration="5000" bid="25247" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/destino-saludable/02-banners-campanas-escritorio/0" target="_blank" rel="nofollow"><img src="https://www.lalfas.es/wp-content/uploads/2017/10/banner_informeUA.png?pas=3309993322607121605" alt="Destino Saludable" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-15883 "  data-duration="5000" bid="15883" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/guia2016/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2016/04/banner-guia-servicios.jpg?pas=12593219292607121605" alt="Guia de Servicios l&#8217;Alfàs" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-51662 "  data-duration="5000" bid="51662" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/voluntariado-social/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2021/03/LOGO-VOLUNTARIADO-SOCIAL-ALFAZ-296x99-1.jpg?pas=10690337312607121605" alt="Voluntariado Social" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-26414 "  data-duration="5000" bid="26414" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/26414/02-banners-campanas-escritorio/0" target="_self" ><img src="https://www.lalfas.es/wp-content/uploads/2017/11/banner-punto-Limpio.jpg?pas=17938253472607121605" alt="Punto Limpio lalfas" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-40383 "  data-duration="5000" bid="40383" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/edusilalfas/02-banners-campanas-escritorio/0" target="_blank" rel="nofollow"><img src="https://www.lalfas.es/wp-content/uploads/2019/09/edusilalfas.jpg?pas=11203263722607121605" alt="edusilalfas" border="0"  /></a></div></div><div style="clear:both;"></div><div class="grid_container grid_container_responsive grid_container_17705" style="float:left; width:97%; height:auto; min-height:80px; margin:3px;"><div class="pasli pasli-103333 "  data-duration="5000" bid="103333" aid="17705"><a class="wppaslink" href="https://www.lalfas.es/Shortcut/agenda-urbana-d-2/02-banners-campanas-escritorio/0" target="_blank" ><img src="https://www.lalfas.es/wp-content/uploads/2025/01/Planes-Edil-FEDER-21-27.jpg?pas=19224475902607121605" alt="Planes-EDIL-FEDER-21-27" border="0"  /></a></div></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div><div style="clear:both;"></div></div></div></div>	</div>
+		</div>
+	</div>
+</div>
+
+
+	<span class="et_pb_scroll_top et-pb-icon"></span>
+
+
+			<footer id="main-footer">
+				
+<div class="container">
+	<div id="footer-widgets" class="clearfix">
+		<div class="footer-widget"><div id="custom_html-3" class="widget_text fwidget et_pb_widget widget_custom_html"><div class="textwidget custom-html-widget"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="80" height="80" rowspan="2" align="center" valign="middle"><img class="alignnone wp-image-13736 size-full" src="https://www.lalfas.es/wp-content/uploads/2015/12/telephone114-e1449657959271.png" alt="telephone114" width="75" height="75" /></td>
+    <td><h1><span style="color: #ffffff;"><a href="tel:965888265" style="color:#ffffff">96 588 82 65</a></span></h1></td>
+  </tr>
+  <tr>
+    <td style="padding-left:15px">
+<span style="color: #ffffff;">Ayuntamiento de l'Alfàs del Pi</span>
+<span style="color: #ffffff;">Calle Federico Garcia Lorca, 11 </span>
+<span style="color: #ffffff;">03580 - l'Alfàs del Pi - Alicante</span></td>
+  </tr>
+</table></div></div><div id="custom_html-6" class="widget_text fwidget et_pb_widget widget_custom_html"><div class="textwidget custom-html-widget"><table width="50%" border="0" align="right" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="right" style="color: #ffffff; padding-right:15px"><h4><a href="https://es-es.facebook.com/Ayto.LAlfasdelpi" target="_blank" style="color: #ffffff">Facebook</a></h4></td>
+    <td width="32" height="32"><a href="https://es-es.facebook.com/Ayto.LAlfasdelpi" target="_blank"><img src="/wp-content/uploads/2015/12/facebook29.png" alt="Facebook"/></a></td>
+  </tr>
+  <tr>
+    <td align="right" style="color: #ffffff; padding-right:15px "><h4><a href="https://twitter.com/lalfases" target="_blank" style="color: #ffffff">Twitter</a></h4></td>
+    <td width="32" height="32"><a href="https://twitter.com/lalfases" target="_blank"><img src="/wp-content/uploads/2015/12/twitter47.png" alt="Twitter"/></a></td>
+  </tr>
+  <tr>
+    <td align="right" style="color: #ffffff; padding-right:15px"><h4><a href="https://www.lalfas.es/feed/rss2/" target="_blank" style="color: #ffffff">RSS 2.0</a></h4></td>
+    <td width="32" height="32"><a href="https://www.lalfas.es/feed/rss2/" target="_blank"><img src="/wp-content/uploads/2015/12/rss26.png" alt="RSS"/></a></td>
+  </tr>
+</table></div></div></div><div class="footer-widget"><div id="media_video-3" class="fwidget et_pb_widget widget_media_video"><h4 class="title">cliplalfas en Youtube</h4><iframe title="Uploads from cliplalfas" src="https://www.youtube.com/embed/videoseries?list=UUZa3diQ_y-EuiXv1xbla7kQ"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div><div class="footer-widget">
+		<div id="recent-posts-4" class="fwidget et_pb_widget widget_recent_entries">
+		<h4 class="title">Noticias Recientes</h4>
+		<ul>
+											<li>
+					<a href="https://www.lalfas.es/concejalias/cultura/poligono-x-de-nestor-lopez-gana-el-faro-de-plata-del-38-festival-de-cine-de-lalfas-del-pi/">‘Polígono X’, de Néstor López, gana el Faro de Plata del 38 Festival de Cine de l’Alfàs del Pi</a>
+											<span class="post-date">12 julio, 2026</span>
+									</li>
+											<li>
+					<a href="https://www.lalfas.es/concejalias/deportes/el-equipo-juvenil-de-lalfas-se-proclamo-campeon-del-torneo-internacional-de-futbol-costa-blanca-cup/">El  equipo Juvenil de l’Alfàs se proclamó campeón del Torneo Internacional de fútbol  Costa Blanca Cup</a>
+											<span class="post-date">11 julio, 2026</span>
+									</li>
+											<li>
+					<a href="https://www.lalfas.es/concejalias/cultura/un-grupo-de-jugadoras-del-cf-lalfas-del-pi-acuden-a-la-proyeccion-de-la-pelicula-pioneras-que-cuenta-las-dificultades-del-primer-equipo-femenino-espanol-en-los-70/">Un grupo de jugadoras del CF l’Alfàs del Pi acuden a la proyección de la película “Pioneras” que cuenta las dificultades del primer equipo femenino español en los 70</a>
+											<span class="post-date">11 julio, 2026</span>
+									</li>
+											<li>
+					<a href="https://www.lalfas.es/concejalias/alcaldia/lalfas-del-pi-acoge-a-las-aficiones-de-inglaterra-y-noruega-que-ese-sabado-se-enfrentan-en-el-mundial/">L’Alfàs del Pi acoge a las aficiones de Inglaterra y Noruega que ese sábado se enfrentan en el mundial</a>
+											<span class="post-date">10 julio, 2026</span>
+									</li>
+											<li>
+					<a href="https://www.lalfas.es/list-transparencia/tablon-de-anuncios/designacion-representante-municipal-como-miembro-de-la-mesa-de-contratacion-de-la-licitacion-de-las-obras-de-urbanizacion-del-programa-de-actuacion-integrada-finca-roca-sectore/">Designación representante municipal como miembro de la Mesa de contratación de la licitación de las obras de urbanización del «Programa de Actuación Integrada “Finca Roca” Sectores I y II del PGOU de l’ Alfàs del Pi</a>
+											<span class="post-date">10 julio, 2026</span>
+									</li>
+											<li>
+					<a href="https://www.lalfas.es/concejalias/cultura/los-directores-rafa-piqueras-y-ruben-guindo-presentan-sus-cortometrajes-en-el-38-festival-de-cine-de-lalfas/">Los directores Rafa Piqueras y Rubén Guindo presentan sus cortometrajes en el 38 Festival de Cine de l&#8217;Alfàs</a>
+											<span class="post-date">10 julio, 2026</span>
+									</li>
+					</ul>
+
+		</div></div>	</div>
+</div>
+
+
+		
+				<div id="footer-bottom">
+					<div class="container clearfix">
+									</div>
+				</div>
+			</footer>
+		</div>
+
+
+	</div>
+
+	<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/Divi/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<div class="gtranslate_wrapper" id="gt-wrapper-86292254"></div>
+<!-- Consent Management powered by Complianz | GDPR/CCPA Cookie Consent https://wordpress.org/plugins/complianz-gdpr -->
+<div id="cmplz-cookiebanner-container"><div id="cmplz-cookiebanner-1-optin" class="cmplz-cookiebanner cmplz-hidden banner-1 banner-a optin cmplz-bottom-right cmplz-categories-type-view-preferences" aria-modal="true" data-nosnippet="true" role="dialog" aria-live="polite" aria-labelledby="cmplz-header-1-optin" aria-describedby="cmplz-message-1-optin">
+	<div class="cmplz-header">
+		<div class="cmplz-logo"></div>
+		<div class="cmplz-title" id="cmplz-header-1-optin">Gestionar consentimiento</div>
+		<div class="cmplz-close" tabindex="0" role="button" aria-label="Cerrar ventana">
+			<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
+		</div>
+	</div>
+
+	<div class="cmplz-divider cmplz-divider-header"></div>
+	<div class="cmplz-body">
+		<div class="cmplz-message" id="cmplz-message-1-optin">Para ofrecer las mejores experiencias, utilizamos tecnologías como las cookies para almacenar y/o acceder a la información del dispositivo. El consentimiento de estas tecnologías nos permitirá procesar datos como el comportamiento de navegación o las identificaciones únicas en este sitio. No consentir o retirar el consentimiento, puede afectar negativamente a ciertas características y funciones.</div>
+		<!-- categories start -->
+		<div class="cmplz-categories">
+			<div class="cmplz-category cmplz-functional">
+				<div class="cmplz-category-header">
+					<span class="cmplz-category-title" id="cmplz-title-functional-1-optin">Funcional</span>
+					<span class='cmplz-always-active'>
+						<span class="cmplz-banner-checkbox">
+							<input type="checkbox"
+								   id="cmplz-functional-optin"
+								   data-category="cmplz_functional"
+								   class="cmplz-consent-checkbox cmplz-functional"
+								   size="40"
+								   value="1"/>
+							<label class="cmplz-label" for="cmplz-functional-optin"><span class="screen-reader-text">Funcional</span></label>
+						</span>
+						Siempre activo					</span>
+					<button class="cmplz-category-toggle"
+							aria-expanded="false"
+							aria-controls="cmplz-desc-functional-1-optin"
+							aria-labelledby="cmplz-title-functional-1-optin">
+						<span class="cmplz-icon cmplz-open">
+							<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18"><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>
+						</span>
+					</button>
+				</div>
+				<div class="cmplz-description" id="cmplz-desc-functional-1-optin" hidden>
+					<span class="cmplz-description-functional">El almacenamiento o acceso técnico es estrictamente necesario para el propósito legítimo de permitir el uso de un servicio específico explícitamente solicitado por el abonado o usuario, o con el único propósito de llevar a cabo la transmisión de una comunicación a través de una red de comunicaciones electrónicas.</span>
+				</div>
+			</div>
+
+			<div class="cmplz-category cmplz-preferences">
+				<div class="cmplz-category-header">
+					<span class="cmplz-category-title" id="cmplz-title-preferences-1-optin">Preferencias</span>
+					<span class="cmplz-banner-checkbox">
+						<input type="checkbox"
+							   id="cmplz-preferences-optin"
+							   data-category="cmplz_preferences"
+							   class="cmplz-consent-checkbox cmplz-preferences"
+							   size="40"
+							   value="1"/>
+						<label class="cmplz-label" for="cmplz-preferences-optin"><span class="screen-reader-text">Preferencias</span></label>
+					</span>
+					<button class="cmplz-category-toggle"
+							aria-expanded="false"
+							aria-controls="cmplz-desc-preferences-1-optin"
+							aria-labelledby="cmplz-title-preferences-1-optin">
+						<span class="cmplz-icon cmplz-open">
+							<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18"><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>
+						</span>
+					</button>
+				</div>
+				<div class="cmplz-description" id="cmplz-desc-preferences-1-optin" hidden>
+					<span class="cmplz-description-preferences">El almacenamiento o acceso técnico es necesario para la finalidad legítima de almacenar preferencias no solicitadas por el abonado o usuario.</span>
+				</div>
+			</div>
+
+			<div class="cmplz-category cmplz-statistics">
+				<div class="cmplz-category-header">
+					<span class="cmplz-category-title" id="cmplz-title-statistics-1-optin">Estadísticas</span>
+					<span class="cmplz-banner-checkbox">
+						<input type="checkbox"
+							   id="cmplz-statistics-optin"
+							   data-category="cmplz_statistics"
+							   class="cmplz-consent-checkbox cmplz-statistics"
+							   size="40"
+							   value="1"/>
+						<label class="cmplz-label" for="cmplz-statistics-optin"><span class="screen-reader-text">Estadísticas</span></label>
+					</span>
+					<button class="cmplz-category-toggle"
+							aria-expanded="false"
+							aria-controls="cmplz-desc-statistics-1-optin"
+							aria-labelledby="cmplz-title-statistics-1-optin">
+						<span class="cmplz-icon cmplz-open">
+							<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18"><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>
+						</span>
+					</button>
+				</div>
+				<div class="cmplz-description" id="cmplz-desc-statistics-1-optin" hidden>
+					<span class="cmplz-description-statistics">El almacenamiento o acceso técnico que es utilizado exclusivamente con fines estadísticos.</span>
+					<span class="cmplz-description-statistics-anonymous">El almacenamiento o acceso técnico que se utiliza exclusivamente con fines estadísticos anónimos. Sin un requerimiento, el cumplimiento voluntario por parte de tu proveedor de servicios de Internet, o los registros adicionales de un tercero, la información almacenada o recuperada sólo para este propósito no se puede utilizar para identificarte.</span>
+				</div>
+			</div>
+
+			<div class="cmplz-category cmplz-marketing">
+				<div class="cmplz-category-header">
+					<span class="cmplz-category-title" id="cmplz-title-marketing-1-optin">Marketing</span>
+					<span class="cmplz-banner-checkbox">
+						<input type="checkbox"
+							   id="cmplz-marketing-optin"
+							   data-category="cmplz_marketing"
+							   class="cmplz-consent-checkbox cmplz-marketing"
+							   size="40"
+							   value="1"/>
+						<label class="cmplz-label" for="cmplz-marketing-optin"><span class="screen-reader-text">Marketing</span></label>
+					</span>
+					<button class="cmplz-category-toggle"
+							aria-expanded="false"
+							aria-controls="cmplz-desc-marketing-1-optin"
+							aria-labelledby="cmplz-title-marketing-1-optin">
+						<span class="cmplz-icon cmplz-open">
+							<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" height="18"><path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"/></svg>
+						</span>
+					</button>
+				</div>
+				<div class="cmplz-description" id="cmplz-desc-marketing-1-optin" hidden>
+					<span class="cmplz-description-marketing">El almacenamiento o acceso técnico es necesario para crear perfiles de usuario para enviar publicidad, o para rastrear al usuario en una web o en varias web con fines de marketing similares.</span>
+				</div>
+			</div>
+		</div><!-- categories end -->
+			</div>
+
+	<div class="cmplz-links cmplz-information">
+		<ul>
+			<li><a class="cmplz-link cmplz-manage-options cookie-statement" href="#" data-relative_url="#cmplz-manage-consent-container">Administrar opciones</a></li>
+			<li><a class="cmplz-link cmplz-manage-third-parties cookie-statement" href="#" data-relative_url="#cmplz-cookies-overview">Gestionar los servicios</a></li>
+			<li><a class="cmplz-link cmplz-manage-vendors tcf cookie-statement" href="#" data-relative_url="#cmplz-tcf-wrapper">Gestionar {vendor_count} proveedores</a></li>
+			<li><a class="cmplz-link cmplz-external cmplz-read-more-purposes tcf" target="_blank" rel="noopener noreferrer nofollow" href="https://cookiedatabase.org/tcf/purposes/" aria-label="Lee más acerca de los fines de TCF en la base de datos de cookies">Leer más sobre estos propósitos</a></li>
+		</ul>
+			</div>
+
+	<div class="cmplz-divider cmplz-footer"></div>
+
+	<div class="cmplz-buttons">
+		<button class="cmplz-btn cmplz-accept">Aceptar</button>
+		<button class="cmplz-btn cmplz-deny">Denegar</button>
+		<button class="cmplz-btn cmplz-view-preferences">Ver preferencias</button>
+		<button class="cmplz-btn cmplz-save-preferences">Guardar preferencias</button>
+		<a class="cmplz-btn cmplz-manage-options tcf cookie-statement" href="#" data-relative_url="#cmplz-manage-consent-container">Ver preferencias</a>
+			</div>
+
+
+	<div class="cmplz-documents cmplz-links">
+		<ul>
+			<li><a class="cmplz-link cookie-statement" href="#" data-relative_url="">{title}</a></li>
+			<li><a class="cmplz-link privacy-statement" href="#" data-relative_url="">{title}</a></li>
+			<li><a class="cmplz-link impressum" href="#" data-relative_url="">{title}</a></li>
+		</ul>
+			</div>
+</div>
+</div>
+					<div id="cmplz-manage-consent" data-nosnippet="true"><button class="cmplz-btn cmplz-hidden cmplz-manage-consent manage-consent-1" aria-haspopup="dialog" aria-controls="cmplz-cookiebanner-1-optin">Gestionar consentimiento</button>
+
+</div><style id="et-builder-googlefonts-inline">/* Original: https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200italic,300,300italic,regular,italic,600,600italic,700,700italic,900,900italic&#038;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext,vietnamese&#038;display=swap *//* User Agent: Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) Safari/538.1 Daum/4.1 */@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZYokRdr.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZMkhdr.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPa7g.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZY4lBdr.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZclRdr.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZklxdr.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_AkA.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zAkA.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3aPw.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rAkA.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vAkA.ttf) format('truetype');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3iu4nAkA.ttf) format('truetype');}/* User Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:27.0) Gecko/20100101 Firefox/27.0 */@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZYokRdo.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZMkhdo.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPa7j.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZY4lBdo.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZclRdo.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZklxdo.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_Akw.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zAkw.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3aPA.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rAkw.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vAkw.woff) format('woff');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3iu4nAkw.woff) format('woff');}/* User Agent: Mozilla/5.0 (Windows NT 6.3; rv:39.0) Gecko/20100101 Firefox/39.0 */@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZYokRdu.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZMkhdu.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK1dSBYKcSV-LCoeQqfX1RYOo3qPa7l.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZY4lBdu.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZclRdu.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: italic;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKwdSBYKcSV-LCoeQqfX1RYOo3qPZZklxdu.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 200;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i94_AlQ.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 300;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ik4zAlQ.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 400;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xK3dSBYKcSV-LCoeQqfX1RYOo3aOg.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 600;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rAlQ.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 700;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3ig4vAlQ.woff2) format('woff2');}@font-face {font-family: 'Source Sans Pro';font-style: normal;font-weight: 900;font-display: swap;src: url(https://fonts.gstatic.com/s/sourcesanspro/v23/6xKydSBYKcSV-LCoeQqfX1RYOo3iu4nAlQ.woff2) format('woff2');}</style>		<script type="text/javascript">
+			var visualizerUserInteractionEvents = [
+				"scroll",
+				"mouseover",
+				"keydown",
+				"touchmove",
+				"touchstart"
+			];
+
+			visualizerUserInteractionEvents.forEach(function(event) {
+				window.addEventListener(event, visualizerTriggerScriptLoader, { passive: true });
+			});
+
+			function visualizerTriggerScriptLoader() {
+				visualizerLoadScripts();
+				visualizerUserInteractionEvents.forEach(function(event) {
+					window.removeEventListener(event, visualizerTriggerScriptLoader, { passive: true });
+				});
+			}
+
+			function visualizerLoadScripts() {
+				document.querySelectorAll("script[data-visualizer-script]").forEach(function(elem) {
+					jQuery.getScript( elem.getAttribute("data-visualizer-script") )
+					.done( function( script, textStatus ) {
+						elem.setAttribute("src", elem.getAttribute("data-visualizer-script"));
+						elem.removeAttribute("data-visualizer-script");
+						setTimeout( function() {
+							visualizerRefreshChart();
+						} );
+					} );
+				});
+			}
+
+			function visualizerRefreshChart() {
+				jQuery( '.visualizer-front:not(.visualizer-chart-loaded)' ).resize();
+				if ( jQuery( 'div.viz-facade-loaded:not(.visualizer-lazy):empty' ).length > 0 ) {
+					visualizerUserInteractionEvents.forEach( function( event ) {
+						window.addEventListener( event, function() {
+							jQuery( '.visualizer-front:not(.visualizer-chart-loaded)' ).resize();
+						}, { passive: true } );
+					} );
+				}
+			}
+		</script>
+			<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/jquery/ui/core.min.js?ver=1.13.3" id="jquery-ui-core-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/jquery/ui/effect.min.js?ver=1.13.3" id="jquery-effects-core-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-includes/js/jquery/ui/effect-shake.min.js?ver=1.13.3" id="jquery-effects-shake-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/public/assets/js/vbc/jquery-ui-effects.min.js?ver=5.3.0" id="WPPAS_VBC_EF-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/public/assets/js/vbc/postscribe.min.js?ver=5.3.0" id="WPPAS_POSRBE-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/public/assets/js/dom-to-image.js?ver=5.3.0" id="WPPAS_DOMTOIMG-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/public/assets/js/vbc/jquery.wppas.vbc.min.js?ver=5.3.0" id="WPPAS_VBC-js"></script>
+<script type="text/javascript" id="divi-custom-script-js-extra">
+/* <![CDATA[ */
+var DIVI = {"item_count":"%d Item","items_count":"%d Items"};
+var et_builder_utils_params = {"condition":{"diviTheme":true,"extraTheme":false},"scrollLocations":["app","top"],"builderScrollLocations":{"desktop":"app","tablet":"app","phone":"app"},"onloadScrollLocation":"app","builderType":"fe"};
+var et_frontend_scripts = {"builderCssContainerPrefix":"#et-boc","builderCssLayoutPrefix":"#et-boc .et-l"};
+var et_pb_custom = {"ajaxurl":"https://www.lalfas.es/wp-admin/admin-ajax.php","images_uri":"https://www.lalfas.es/wp-content/themes/Divi/images","builder_images_uri":"https://www.lalfas.es/wp-content/themes/Divi/includes/builder/images","et_frontend_nonce":"bc97d9c25f","subscription_failed":"Please, check the fields below to make sure you entered the correct information.","et_ab_log_nonce":"af61d5dd44","fill_message":"Please, fill in the following fields:","contact_error_message":"Please, fix the following errors:","invalid":"Invalid email","captcha":"Captcha","prev":"Prev","previous":"Previous","next":"Next","wrong_captcha":"You entered the wrong number in captcha.","wrong_checkbox":"Checkbox","ignore_waypoints":"no","is_divi_theme_used":"1","widget_search_selector":".widget_search","ab_tests":[],"is_ab_testing_active":"","page_id":"121671","unique_test_id":"","ab_bounce_rate":"5","is_cache_plugin_active":"no","is_shortcode_tracking":"","tinymce_uri":"https://www.lalfas.es/wp-content/themes/Divi/includes/builder/frontend-builder/assets/vendors","accent_color":"#7EBEC5","waypoints_options":[]};
+var et_pb_box_shadow_elements = [];
+//# sourceURL=divi-custom-script-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/themes/Divi/js/scripts.min.js?ver=4.27.7" id="divi-custom-script-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/themes/Divi/js/smoothscroll.js?ver=4.27.7" id="smoothscroll-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/themes/Divi/includes/builder/feature/dynamic-assets/assets/js/jquery.fitvids.js?ver=4.27.7" id="fitvids-js"></script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/themes/Divi/core/admin/js/common.js?ver=4.27.7" id="et-core-common-js"></script>
+<script type="text/javascript" id="cmplz-cookiebanner-js-extra">
+/* <![CDATA[ */
+var complianz = {"prefix":"cmplz_","user_banner_id":"1","set_cookies":[],"block_ajax_content":"0","banner_version":"16","version":"7.5.0","store_consent":"","do_not_track_enabled":"1","consenttype":"optin","region":"eu","geoip":"","dismiss_timeout":"","disable_cookiebanner":"","soft_cookiewall":"","dismiss_on_scroll":"","cookie_expiry":"365","url":"https://www.lalfas.es/wp-json/complianz/v1/","locale":"lang=es&locale=es_ES","set_cookies_on_root":"0","cookie_domain":"","current_policy_id":"36","cookie_path":"/","categories":{"statistics":"estad\u00edsticas","marketing":"m\u00e1rketing"},"tcf_active":"","placeholdertext":"Haz clic para aceptar cookies de marketing y permitir este contenido","css_file":"https://www.lalfas.es/wp-content/uploads/complianz/css/banner-{banner_id}-{type}.css?v=16","page_links":{"eu":{"cookie-statement":{"title":"Pol\u00edtica de cookies ","url":"https://www.lalfas.es/politica-de-cookies-ue/"}}},"tm_categories":"","forceEnableStats":"","preview":"","clean_cookies":"","aria_label":"Haz clic para aceptar cookies de marketing y permitir este contenido"};
+//# sourceURL=cmplz-cookiebanner-js-extra
+/* ]]> */
+</script>
+<script defer type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/complianz-gdpr/cookiebanner/js/complianz.min.js?ver=1781920775" id="cmplz-cookiebanner-js"></script>
+<script type="text/javascript" id="cmplz-cookiebanner-js-after">
+/* <![CDATA[ */
+		
+			let cmplz_activated_divi_maps = false;
+			document.addEventListener("cmplz_enable_category", function (e) {
+				if (!cmplz_activated_divi_maps && (e.detail.category==='marketing' || e.detail.service === 'google-maps') ){
+					cmplz_divi_init_map();
+				}
+			});
+
+			function cmplz_divi_init_map() {
+				if ('undefined' === typeof window.jQuery || 'undefined' === typeof window.et_pb_map_init ) {
+					setTimeout(cmplz_divi_init_map, 1000);
+				} else {
+					let map_container = jQuery(".et_pb_map_container");
+					map_container.each(function () {
+						window.et_pb_map_init(jQuery(this));
+						cmplz_activated_divi_maps = true;
+					})
+				}
+			}
+			setTimeout(cmplz_divi_init_map, 300);
+		
+
+		
+//# sourceURL=cmplz-cookiebanner-js-after
+/* ]]> */
+</script>
+<script type="text/javascript" id="wp_pro_add_js_functions-js-extra">
+/* <![CDATA[ */
+var wppas_ajax_script = {"ajaxurl":"https://www.lalfas.es/wp-admin/admin-ajax.php"};
+//# sourceURL=wp_pro_add_js_functions-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://www.lalfas.es/wp-content/plugins/wppas/templates/js/wppas.min.js?ver=1ed032980cbfd2bb4d55c574cfda3d6f" id="wp_pro_add_js_functions-js"></script>
+<script type="text/javascript" id="gt_widget_script_86292254-js-before">
+/* <![CDATA[ */
+window.gtranslateSettings = /* document.write */ window.gtranslateSettings || {};window.gtranslateSettings['86292254'] = {"default_language":"es","languages":["ca","da","nl","en","fr","de","no","pl","ro","ru","es","sv"],"url_structure":"none","native_language_names":1,"flag_style":"2d","flag_size":32,"wrapper_selector":"#gt-wrapper-86292254","alt_flags":[],"switcher_open_direction":"top","switcher_horizontal_position":"right","switcher_vertical_position":"top","switcher_text_color":"#666","switcher_arrow_color":"#666","switcher_border_color":"#ccc","switcher_background_color":"#fff","switcher_background_shadow_color":"#efefef","switcher_background_hover_color":"#fff","dropdown_text_color":"#000","dropdown_hover_color":"#fff","dropdown_background_color":"#eee","flags_location":"\/wp-content\/plugins\/gtranslate\/flags\/"};
+//# sourceURL=gt_widget_script_86292254-js-before
+/* ]]> */
+</script><script src="https://www.lalfas.es/wp-content/plugins/gtranslate/js/dwf.js?ver=3.1.1" data-no-optimize="1" data-no-minify="1" data-gt-orig-url="/list-transparencia/tablon-de-anuncios/sel_personal/" data-gt-orig-domain="www.lalfas.es" data-gt-widget-id="86292254" defer></script>				<script async data-category="statistics"
+						src="https://www.googletagmanager.com/gtag/js?id=UA-29373622-1"></script><!-- Statistics script Complianz GDPR/CCPA -->
+						<script type="text/plain"							data-category="statistics">window['gtag_enable_tcf_support'] = false;
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-29373622-1', {
+	cookie_flags:'secure;samesite=none',
+	'anonymize_ip': true
+});
+</script></body>
+</html>
