@@ -48,6 +48,10 @@ class _FakeScraperSinMatch:
 
 
 class _FakeScraperVacio:
+    def __init__(self, *args, **kwargs):
+        # Acepta cualquier argumento (p.ej. BopAlicanteScraper(dias_atras=...)).
+        pass
+
     def scrape(self):
         return []
 
@@ -68,6 +72,8 @@ def _patch_scrapers(monkeypatch, principal):
     monkeypatch.setattr(main_module, "BenidormScraper", _FakeScraperVacio)
     monkeypatch.setattr(main_module, "DogvScraper", _FakeScraperVacio)
     monkeypatch.setattr(main_module, "BopAlicanteScraper", _FakeScraperVacio)
+    monkeypatch.setattr(main_module, "ElcheScraper", _FakeScraperVacio)
+    monkeypatch.setattr(main_module, "GestionaScraper", _FakeScraperVacio)
 
 
 def test_convocatoria_sin_seguimiento_y_sin_match_no_notifica(temp_session_factory, monkeypatch):
