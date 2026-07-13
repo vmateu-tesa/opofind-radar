@@ -16,11 +16,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 
+from pydantic import BaseModel
+
 from db.database import init_db, get_session
-from db.models import Convocatoria, Notificacion, AvisoPlazo
+from db.models import Convocatoria, Notificacion, AvisoPlazo, MunicipioFavorito
 from core.matcher import Matcher
 from core.classifier import classify_tipo
 from core import plazos
+from core import geo
 from scrapers.dip_otras_oposiciones import DipOtrasOposicionesScraper
 from scrapers.dip_bolsa_oferta import DipBolsaOfertaScraper
 from scrapers.boe import BoeScraper
@@ -101,6 +104,11 @@ def check_updates():
     # Canales de aviso activos (telegram/whatsapp/email segun ENABLE_*).
     canales = _canales_activos()
 
+    # Municipios favoritos del usuario (una sola query por ejecucion):
+    # cualquier novedad de un municipio favorito avisa SIEMPRE, coincida o
+    # no con los perfiles de alertas.yaml.
+    favoritos = {m.nombre for m in session.query(MunicipioFavorito).all()}
+
     scrapers = [
         DipOtrasOposicionesScraper(),
         DipBolsaOfertaScraper(),
@@ -163,16 +171,27 @@ def check_updates():
             texto_busqueda = f"{c_data.titulo} {c_data.entidad} {c_data.observaciones}"
             perfiles_matched = matcher.match(texto_busqueda)
 
+            # Municipio favorito: si la oferta pertenece a un municipio
+            # marcado por el usuario, avisa aunque no matchee ningun perfil.
+            muni = geo.municipio_de(c_data.entidad or "", c_data.titulo or "")
+            muni_favorito = muni if muni in favoritos else None
+
             # Si el usuario ha marcado esta convocatoria para seguimiento
             # manual, cualquier actualizacion avisa SIEMPRE, aunque no
             # coincida con ningun perfil de alertas.yaml.
-            if perfiles_matched or conv.seguimiento:
-                motivo = ', '.join(perfiles_matched) if perfiles_matched else 'seguimiento manual'
-                print(f"Match encontrado ({motivo}): [{estado}] {c_data.titulo} en {c_data.entidad}")
+            if perfiles_matched or conv.seguimiento or muni_favorito:
+                motivos = list(perfiles_matched)
+                if conv.seguimiento and not perfiles_matched:
+                    motivos.append('seguimiento manual')
+                if muni_favorito:
+                    motivos.append(f'municipio favorito: {muni_favorito}')
+                print(f"Match encontrado ({', '.join(motivos)}): [{estado}] {c_data.titulo} en {c_data.entidad}")
 
                 msg = f"🚨 <b>{estado} Oposición/Empleo</b>\n"
                 if conv.seguimiento and not perfiles_matched:
                     msg += "<b>(Convocatoria en seguimiento)</b>\n"
+                if muni_favorito:
+                    msg += f"📍 <b>Municipio favorito:</b> {html_escape(muni_favorito)}\n"
                 if perfiles_matched:
                     msg += f"<b>Perfiles:</b> {html_escape(', '.join(perfiles_matched))}\n"
                 msg += f"<b>Entidad:</b> {_clean_for_telegram(c_data.entidad)}\n"
@@ -214,9 +233,10 @@ def check_updates():
 
 
 def revisar_plazos(session, matcher, canales, hoy=None):
-    """Recorre las convocatorias con seguimiento=True o que matchean algun
-    perfil, y envia los avisos de plazo que toquen HOY (apertura / cierre en
-    N dias), registrando cada uno en AvisoPlazo para no repetirlo.
+    """Recorre las convocatorias con seguimiento=True, que matchean algun
+    perfil o que son de un municipio favorito, y envia los avisos de plazo
+    que toquen HOY (apertura / cierre en N dias), registrando cada uno en
+    AvisoPlazo para no repetirlo.
 
     Anti-spam: si en una misma ejecucion tocan mas de 5 avisos, se agrupan en
     un unico mensaje-resumen por canal en vez de enviar uno por uno."""
@@ -227,11 +247,15 @@ def revisar_plazos(session, matcher, canales, hoy=None):
         (Convocatoria.fecha_fin.isnot(None)) | (Convocatoria.fecha_inicio.isnot(None))
     ).all()
 
+    favoritos = {m.nombre for m in session.query(MunicipioFavorito).all()}
+
     pendientes = []  # (conv, tipo_aviso)
     for conv in candidatas:
         texto = f"{conv.titulo} {conv.entidad} {conv.observaciones or ''}"
         if not conv.seguimiento and not matcher.match(texto):
-            continue
+            muni = geo.municipio_de(conv.entidad or "", conv.titulo or "")
+            if not (muni and muni in favoritos):
+                continue
         ya = {a.tipo_aviso for a in session.query(AvisoPlazo).filter_by(convocatoria_id=conv.id).all()}
         for aviso in plazos.avisos_pendientes(conv, ya, plazos.leer_umbrales(), hoy=hoy):
             pendientes.append((conv, aviso))
@@ -375,7 +399,21 @@ def estado(db: Session = Depends(get_db)):
         "proxima_ejecucion": proxima,
         "total_convocatorias": db.query(Convocatoria).count(),
         "seguidas": db.query(Convocatoria).filter_by(seguimiento=True).count(),
+        "municipios_favoritos": db.query(MunicipioFavorito).count(),
     }
+
+
+def _conv_a_dict(c: Convocatoria) -> dict:
+    """Serializa una convocatoria añadiendo los campos CALCULADOS que
+    necesita el cuadro de mando: estado del plazo hoy, dias restantes y
+    municipio canonico. Se calculan en servidor para que frontend y motor de
+    avisos usen exactamente la misma logica (core/plazos y core/geo), sin
+    duplicarla en JavaScript."""
+    d = {col.name: getattr(c, col.name) for col in Convocatoria.__table__.columns}
+    d["plazo_estado"] = plazos.estado_plazo(c.fecha_inicio, c.fecha_fin)
+    d["dias_restantes"] = plazos.dias_restantes(c.fecha_fin)
+    d["municipio"] = geo.municipio_de(c.entidad or "", c.titulo or "")
+    return d
 
 
 @app.get("/api/convocatorias")
@@ -386,7 +424,78 @@ def read_convocatorias(db: Session = Depends(get_db)):
     # pagina real. Con 10 fuentes activas el total ya supera facilmente los
     # 500 registros (el limite anterior); 2000 da margen para bastantes
     # meses de acumulacion antes de necesitar paginacion de verdad.
-    return db.query(Convocatoria).order_by(Convocatoria.fecha_publicacion.desc()).limit(2000).all()
+    filas = db.query(Convocatoria).order_by(Convocatoria.fecha_publicacion.desc()).limit(2000).all()
+    return [_conv_a_dict(c) for c in filas]
+
+
+class MunicipioIn(BaseModel):
+    nombre: str
+
+
+@app.get("/api/municipios")
+def read_municipios(db: Session = Depends(get_db)):
+    """Todos los municipios canonicos de la provincia con contadores sobre
+    las convocatorias almacenadas (total y con plazo abierto), y si son
+    favoritos. Es la base del selector de favoritos del frontend."""
+    favoritos = {m.nombre for m in db.query(MunicipioFavorito).all()}
+    contadores = {}  # canonico -> [total, abiertas]
+    for c in db.query(Convocatoria).all():
+        muni = geo.municipio_de(c.entidad or "", c.titulo or "")
+        if not muni:
+            continue
+        par = contadores.setdefault(muni, [0, 0])
+        par[0] += 1
+        if plazos.estado_plazo(c.fecha_inicio, c.fecha_fin) in (plazos.ABIERTO, plazos.CIERRA_PRONTO):
+            par[1] += 1
+    return [
+        {
+            "nombre": m,
+            "favorito": m in favoritos,
+            "total": contadores.get(m, [0, 0])[0],
+            "abiertas": contadores.get(m, [0, 0])[1],
+        }
+        for m in geo.lista_municipios()
+    ]
+
+
+@app.get("/api/municipios-favoritos")
+def read_municipios_favoritos(db: Session = Depends(get_db)):
+    return [
+        {"id": m.id, "nombre": m.nombre}
+        for m in db.query(MunicipioFavorito).order_by(MunicipioFavorito.nombre).all()
+    ]
+
+
+@app.post("/api/municipios-favoritos")
+def add_municipio_favorito(payload: MunicipioIn, db: Session = Depends(get_db)):
+    """Marca un municipio como favorito. El nombre se resuelve al canonico
+    sin distinguir mayusculas/acentos/variantes ("elx" -> "Elche").
+    Idempotente: repetir un favorito devuelve el existente, no un error."""
+    canonico = geo.resolver_municipio(payload.nombre)
+    if not canonico:
+        raise HTTPException(
+            status_code=400,
+            detail=f"'{payload.nombre}' no es un municipio de la provincia de Alicante",
+        )
+    existente = db.query(MunicipioFavorito).filter_by(nombre=canonico).first()
+    if existente:
+        return {"id": existente.id, "nombre": existente.nombre}
+    fav = MunicipioFavorito(nombre=canonico)
+    db.add(fav)
+    db.commit()
+    db.refresh(fav)
+    return {"id": fav.id, "nombre": fav.nombre}
+
+
+@app.delete("/api/municipios-favoritos/{nombre}")
+def del_municipio_favorito(nombre: str, db: Session = Depends(get_db)):
+    canonico = geo.resolver_municipio(nombre) or nombre
+    fav = db.query(MunicipioFavorito).filter_by(nombre=canonico).first()
+    if not fav:
+        raise HTTPException(status_code=404, detail=f"'{nombre}' no estaba en favoritos")
+    db.delete(fav)
+    db.commit()
+    return {"ok": True, "nombre": canonico}
 
 @app.post("/api/convocatorias/{convocatoria_id}/seguir")
 def seguir_convocatoria(convocatoria_id: str, db: Session = Depends(get_db)):
