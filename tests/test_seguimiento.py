@@ -75,6 +75,7 @@ def _patch_scrapers(monkeypatch, principal):
     monkeypatch.setattr(main_module, "ElcheScraper", _FakeScraperVacio)
     monkeypatch.setattr(main_module, "GestionaScraper", _FakeScraperVacio)
     monkeypatch.setattr(main_module, "AlfazScraper", _FakeScraperVacio)
+    monkeypatch.setattr(main_module, "VillajoyosaScraper", _FakeScraperVacio)
 
 
 def test_convocatoria_sin_seguimiento_y_sin_match_no_notifica(temp_session_factory, monkeypatch):

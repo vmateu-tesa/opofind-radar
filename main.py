@@ -29,6 +29,7 @@ from scrapers.bop_alicante import BopAlicanteScraper
 from scrapers.elche import ElcheScraper
 from scrapers.gestiona import GestionaScraper
 from scrapers.alfaz import AlfazScraper
+from scrapers.villajoyosa import VillajoyosaScraper
 from notifications.telegram_bot import TelegramNotifier
 from notifications.whatsapp_api import WhatsappNotifier
 from notifications.email_smtp import EmailNotifier
@@ -109,6 +110,7 @@ def check_updates():
         ElcheScraper(),          # tablon RRHH del Ayto de Elche
         GestionaScraper(),       # tablones Marina Baixa (la Nucia, Altea, ...)
         AlfazScraper(),          # tablon de seleccion de personal de l'Alfas del Pi
+        VillajoyosaScraper(),    # ofertas de empleo del Ayto de la Vila Joiosa
     ]
 
     todas_convocatorias = []
