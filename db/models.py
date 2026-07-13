@@ -42,6 +42,18 @@ class Notificacion(Base):
     canal = Column(String) # "telegram", "whatsapp", "email"
 
 
+class MunicipioFavorito(Base):
+    """Municipio marcado como favorito por el usuario: cualquier oferta
+    NUEVA o ACTUALIZADA de ese municipio dispara notificacion por los
+    canales activos, coincida o no con los perfiles de alertas.yaml.
+    ``nombre`` es el canonico de core/geo.py (ver MUNICIPIOS_CANONICOS)."""
+    __tablename__ = 'municipios_favoritos'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String, nullable=False, unique=True)
+    creado_at = Column(DateTime, default=datetime.utcnow)
+
+
 class AvisoPlazo(Base):
     """Registro de los avisos de PLAZO ya enviados para una convocatoria, para
     no repetirlos. tipo_aviso es 'apertura', 'cierre_5d', 'cierre_1d'... (ver
