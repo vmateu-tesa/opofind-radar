@@ -2,6 +2,7 @@ import os
 import re
 import time
 from datetime import datetime, date
+from zoneinfo import ZoneInfo
 from html import escape as html_escape
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
@@ -296,9 +297,13 @@ async def lifespan(app: FastAPI):
     if interval_hours > 0:
         scheduler.add_job(check_updates, IntervalTrigger(hours=interval_hours))
     else:
-        # Por defecto, una vez al dia a las 4:00 (estas fuentes no cambian
-        # varias veces al dia, no hace falta sondear mas a menudo).
-        scheduler.add_job(check_updates, CronTrigger(hour=4, minute=0))
+        # Por defecto, una vez al dia a las 4:00 hora de Madrid (estas
+        # fuentes no cambian varias veces al dia, no hace falta sondear mas
+        # a menudo). Zona horaria EXPLICITA: el contenedor corre en UTC por
+        # defecto (sin esto, "hour=4" disparaba a las 4:00 UTC = 6:00 en
+        # Madrid en verano -- 2h tarde respecto a lo pedido). zoneinfo
+        # maneja el cambio de horario CET/CEST automaticamente.
+        scheduler.add_job(check_updates, CronTrigger(hour=4, minute=0, timezone=ZoneInfo("Europe/Madrid")))
     scheduler.start()
     yield
     scheduler.shutdown()
