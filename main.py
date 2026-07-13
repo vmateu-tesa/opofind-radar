@@ -1,7 +1,7 @@
 import os
 import re
 import time
-from datetime import datetime
+from datetime import datetime, date
 from html import escape as html_escape
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
@@ -16,18 +16,65 @@ from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 
 from db.database import init_db, get_session
-from db.models import Convocatoria, Notificacion
+from db.models import Convocatoria, Notificacion, AvisoPlazo
 from core.matcher import Matcher
 from core.classifier import classify_tipo
+from core import plazos
 from scrapers.dip_otras_oposiciones import DipOtrasOposicionesScraper
 from scrapers.dip_bolsa_oferta import DipBolsaOfertaScraper
 from scrapers.boe import BoeScraper
 from scrapers.benidorm import BenidormScraper
 from scrapers.dogv import DogvScraper
 from scrapers.bop_alicante import BopAlicanteScraper
+from scrapers.elche import ElcheScraper
+from scrapers.gestiona import GestionaScraper
+from scrapers.alfaz import AlfazScraper
 from notifications.telegram_bot import TelegramNotifier
 from notifications.whatsapp_api import WhatsappNotifier
+from notifications.email_smtp import EmailNotifier
 from study_module.generator import StudyGenerator
+
+
+def _env_int(nombre, defecto):
+    try:
+        return int(os.getenv(nombre, str(defecto)))
+    except (TypeError, ValueError):
+        return defecto
+
+
+def _canales_activos():
+    """Instancia los notificadores cuyo canal esta habilitado por env
+    (ENABLE_TELEGRAM/ENABLE_WHATSAPP/ENABLE_EMAIL == '1'). Devuelve lista de
+    (nombre_canal, notificador)."""
+    canales = []
+    if os.getenv("ENABLE_TELEGRAM") == "1":
+        canales.append(("telegram", TelegramNotifier()))
+    if os.getenv("ENABLE_WHATSAPP") == "1":
+        canales.append(("whatsapp", WhatsappNotifier()))
+    if os.getenv("ENABLE_EMAIL") == "1":
+        canales.append(("email", EmailNotifier()))
+    return canales
+
+
+def _linea_plazo(fecha_inicio, fecha_fin) -> str:
+    """Linea de texto legible sobre el estado del plazo, para los mensajes de
+    alerta. Vacia si no hay fechas."""
+    estado = plazos.estado_plazo(fecha_inicio, fecha_fin)
+    if estado == plazos.SIN_FECHAS:
+        return ""
+    if estado == plazos.PROXIMAMENTE:
+        return f"<b>Plazo:</b> abre el {html_escape(str(fecha_inicio))}"
+    if estado == plazos.CERRADO:
+        return f"<b>Plazo:</b> {html_escape(str(fecha_fin))} (cerrado)"
+    dias = plazos.dias_restantes(fecha_fin)
+    if dias == 0:
+        cola = "¡ULTIMO DIA hoy!"
+    elif dias and dias > 0:
+        cola = f"quedan {dias} dias"
+    else:
+        cola = ""
+    rango = " - ".join(x for x in [str(fecha_inicio or ""), str(fecha_fin or "")] if x)
+    return f"<b>Plazo:</b> {html_escape(rango)} ({cola})" if cola else f"<b>Plazo:</b> {html_escape(rango)}"
 
 def _clean_for_telegram(text: str) -> str:
     """Limpia HTML crudo que puede venir de un RSS (p.ej. observaciones de
@@ -48,19 +95,22 @@ def check_updates():
     print(f"[{datetime.now()}] Iniciando chequeo de OpoRadar...")
     session = get_session()
     matcher = Matcher()
-    
-    telegram = TelegramNotifier()
-    whatsapp = WhatsappNotifier()
-    
+
+    # Canales de aviso activos (telegram/whatsapp/email segun ENABLE_*).
+    canales = _canales_activos()
+
     scrapers = [
         DipOtrasOposicionesScraper(),
         DipBolsaOfertaScraper(),
-        BoeScraper(),
+        BoeScraper(),            # provincia de Alicante, ultimos 30 dias
         BenidormScraper(),
-        DogvScraper(),
-        BopAlicanteScraper(),
+        DogvScraper(),           # provincia de Alicante
+        BopAlicanteScraper(dias_atras=_env_int("BOP_DIAS_ATRAS", 3)),
+        ElcheScraper(),          # tablon RRHH del Ayto de Elche
+        GestionaScraper(),       # tablones Marina Baixa (la Nucia, Altea, ...)
+        AlfazScraper(),          # tablon de seleccion de personal de l'Alfas del Pi
     ]
-    
+
     todas_convocatorias = []
     for s in scrapers:
         try:
@@ -126,27 +176,115 @@ def check_updates():
                 msg += f"<b>Plaza:</b> {_clean_for_telegram(c_data.titulo)}\n"
                 if c_data.vacantes:
                     msg += f"<b>Vacantes:</b> {_clean_for_telegram(c_data.vacantes)}\n"
+                linea_plazo = _linea_plazo(c_data.fecha_inicio, c_data.fecha_fin)
+                if linea_plazo:
+                    msg += linea_plazo + "\n"
                 if c_data.enlace:
                     # El enlace va como texto plano (no <a href>): puede traer
                     # caracteres que romperian el atributo href sin escapar aparte.
                     msg += f"<b>Enlace:</b> {html_escape(c_data.enlace)}\n"
                 if c_data.observaciones:
                     msg += f"<b>Obs:</b> {_clean_for_telegram(c_data.observaciones)}\n"
-                    
-                enviado_tg = telegram.send_message(msg) if os.getenv("ENABLE_TELEGRAM") == "1" else False
-                enviado_wa = whatsapp.send_message(msg) if os.getenv("ENABLE_WHATSAPP") == "1" else False
-                
-                if enviado_tg or enviado_wa:
-                    notif = Notificacion(
-                        convocatoria_id=conv.id,
-                        hash_enviado=nuevo_hash,
-                        canal="telegram" if enviado_tg else "whatsapp"
-                    )
-                    session.add(notif)
-                    
+
+                for nombre_canal, notificador in canales:
+                    try:
+                        if notificador.send_message(msg):
+                            session.add(Notificacion(
+                                convocatoria_id=conv.id,
+                                hash_enviado=nuevo_hash,
+                                canal=nombre_canal,
+                            ))
+                    except Exception as e:
+                        print(f"Error notificando por {nombre_canal}: {e}")
+
     session.commit()
+
+    # Segunda pasada: avisos de PLAZO (apertura y recordatorios de cierre) de
+    # las convocatorias seguidas o que matchean algun perfil.
+    try:
+        revisar_plazos(session, matcher, canales)
+    except Exception as e:
+        print(f"Error revisando plazos: {e}")
+
     session.close()
     print(f"[{datetime.now()}] Chequeo finalizado.")
+
+
+def revisar_plazos(session, matcher, canales, hoy=None):
+    """Recorre las convocatorias con seguimiento=True o que matchean algun
+    perfil, y envia los avisos de plazo que toquen HOY (apertura / cierre en
+    N dias), registrando cada uno en AvisoPlazo para no repetirlo.
+
+    Anti-spam: si en una misma ejecucion tocan mas de 5 avisos, se agrupan en
+    un unico mensaje-resumen por canal en vez de enviar uno por uno."""
+    if hoy is None:
+        hoy = date.today()
+
+    candidatas = session.query(Convocatoria).filter(
+        (Convocatoria.fecha_fin.isnot(None)) | (Convocatoria.fecha_inicio.isnot(None))
+    ).all()
+
+    pendientes = []  # (conv, tipo_aviso)
+    for conv in candidatas:
+        texto = f"{conv.titulo} {conv.entidad} {conv.observaciones or ''}"
+        if not conv.seguimiento and not matcher.match(texto):
+            continue
+        ya = {a.tipo_aviso for a in session.query(AvisoPlazo).filter_by(convocatoria_id=conv.id).all()}
+        for aviso in plazos.avisos_pendientes(conv, ya, plazos.leer_umbrales(), hoy=hoy):
+            pendientes.append((conv, aviso))
+
+    if not pendientes:
+        return
+
+    def _msg_individual(conv, aviso):
+        if aviso == plazos.AVISO_APERTURA:
+            cabecera = "⏰ <b>PLAZO ABIERTO</b>"
+        else:
+            dias = plazos.dias_restantes(conv.fecha_fin, hoy=hoy)
+            cabecera = ("🔔 <b>ULTIMO DIA de plazo</b>" if dias == 0
+                        else f"🔔 <b>EL PLAZO CIERRA EN {dias} DIAS</b>")
+        m = cabecera + "\n"
+        m += f"<b>Entidad:</b> {_clean_for_telegram(conv.entidad or '')}\n"
+        m += f"<b>Plaza:</b> {_clean_for_telegram(conv.titulo or '')}\n"
+        linea = _linea_plazo(conv.fecha_inicio, conv.fecha_fin)
+        if linea:
+            m += linea + "\n"
+        if conv.enlace:
+            m += f"<b>Enlace:</b> {html_escape(conv.enlace)}\n"
+        return m
+
+    # Envio (individual si son pocos, agrupado si son muchos).
+    if len(pendientes) > 5:
+        lineas = []
+        for conv, aviso in pendientes:
+            dias = plazos.dias_restantes(conv.fecha_fin, hoy=hoy)
+            cola = "abre" if aviso == plazos.AVISO_APERTURA else (
+                "ULTIMO DIA" if dias == 0 else f"cierra, quedan {dias} dias")
+            lineas.append(f"• {_clean_for_telegram(conv.titulo or '')} ({_clean_for_telegram(conv.entidad or '')}): {cola}")
+        resumen = "⏰ <b>Avisos de plazo</b>\n" + "\n".join(lineas)
+        for nombre_canal, notificador in canales:
+            try:
+                notificador.send_message(resumen)
+            except Exception as e:
+                print(f"Error aviso-plazo (resumen) por {nombre_canal}: {e}")
+    else:
+        for conv, aviso in pendientes:
+            m = _msg_individual(conv, aviso)
+            for nombre_canal, notificador in canales:
+                try:
+                    notificador.send_message(m)
+                except Exception as e:
+                    print(f"Error aviso-plazo por {nombre_canal}: {e}")
+
+    # Solo se marcan como enviados si habia al menos un canal al que
+    # intentar mandarlos. Si no hay ningun canal configurado todavia, se
+    # dejan pendientes: asi, cuando el usuario configure Telegram/email,
+    # recibira los avisos de los plazos que sigan abiertos (agrupados si son
+    # muchos), en vez de haberselos perdido en silencio.
+    if canales:
+        for conv, aviso in pendientes:
+            session.add(AvisoPlazo(convocatoria_id=conv.id, tipo_aviso=aviso))
+        session.commit()
 
 scheduler = BackgroundScheduler()
 
@@ -156,9 +294,9 @@ async def lifespan(app: FastAPI):
     if interval_hours > 0:
         scheduler.add_job(check_updates, IntervalTrigger(hours=interval_hours))
     else:
-        # Por defecto, una vez al dia a las 2:00 (estas fuentes no cambian
+        # Por defecto, una vez al dia a las 4:00 (estas fuentes no cambian
         # varias veces al dia, no hace falta sondear mas a menudo).
-        scheduler.add_job(check_updates, CronTrigger(hour=2, minute=0))
+        scheduler.add_job(check_updates, CronTrigger(hour=4, minute=0))
     scheduler.start()
     yield
     scheduler.shutdown()
@@ -200,6 +338,37 @@ def _rate_limit(key: str, min_interval_seconds: float):
     if remaining > 0:
         raise HTTPException(status_code=429, detail=f"Espera {int(remaining) + 1}s antes de repetir esta accion.")
     _last_call[key] = now
+
+
+@app.get("/api/estado")
+def estado(db: Session = Depends(get_db)):
+    """Estado del radar para la interfaz: que canales de aviso estan activos
+    (booleanos, nunca secretos), proxima ejecucion programada y algunos
+    contadores. Sirve para avisar en el frontend si NO hay ningun canal
+    configurado (las alertas no llegarian a ningun sitio)."""
+    def _tel_ok():
+        return os.getenv("ENABLE_TELEGRAM") == "1" and bool(os.getenv("TELEGRAM_TOKEN")) and bool(os.getenv("TELEGRAM_CHAT_ID"))
+
+    def _wa_ok():
+        return os.getenv("ENABLE_WHATSAPP") == "1" and bool(os.getenv("WHATSAPP_TOKEN")) and bool(os.getenv("WHATSAPP_PHONE_ID"))
+
+    def _email_ok():
+        return os.getenv("ENABLE_EMAIL") == "1" and bool(os.getenv("SMTP_HOST")) and bool(os.getenv("EMAIL_TO") or os.getenv("SMTP_USER"))
+
+    proxima = None
+    try:
+        jobs = scheduler.get_jobs()
+        if jobs and jobs[0].next_run_time:
+            proxima = jobs[0].next_run_time.isoformat()
+    except Exception:
+        proxima = None
+
+    return {
+        "canales": {"telegram": _tel_ok(), "whatsapp": _wa_ok(), "email": _email_ok()},
+        "proxima_ejecucion": proxima,
+        "total_convocatorias": db.query(Convocatoria).count(),
+        "seguidas": db.query(Convocatoria).filter_by(seguimiento=True).count(),
+    }
 
 
 @app.get("/api/convocatorias")

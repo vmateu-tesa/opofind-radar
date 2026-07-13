@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Column, String, DateTime, Text, Boolean, Integer, ForeignKey
+from sqlalchemy import Column, String, DateTime, Text, Boolean, Integer, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -34,9 +34,23 @@ class Convocatoria(Base):
 
 class Notificacion(Base):
     __tablename__ = 'notificaciones'
-    
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     convocatoria_id = Column(String, ForeignKey('convocatorias.id'))
     hash_enviado = Column(String) # To know WHICH version of the convocatoria we sent
     fecha_envio = Column(DateTime, default=datetime.utcnow)
-    canal = Column(String) # "telegram", "whatsapp"
+    canal = Column(String) # "telegram", "whatsapp", "email"
+
+
+class AvisoPlazo(Base):
+    """Registro de los avisos de PLAZO ya enviados para una convocatoria, para
+    no repetirlos. tipo_aviso es 'apertura', 'cierre_5d', 'cierre_1d'... (ver
+    core/plazos.py). El UniqueConstraint garantiza que cada aviso se envie una
+    sola vez por convocatoria, aunque el cron corra varias veces."""
+    __tablename__ = 'avisos_plazo'
+    __table_args__ = (UniqueConstraint('convocatoria_id', 'tipo_aviso', name='uq_aviso_plazo'),)
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    convocatoria_id = Column(String, ForeignKey('convocatorias.id'), nullable=False)
+    tipo_aviso = Column(String, nullable=False)
+    enviado_at = Column(DateTime, default=datetime.utcnow)

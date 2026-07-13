@@ -25,6 +25,9 @@ function App() {
   const [modalLoading, setModalLoading] = useState(false);
   const [testAnswers, setTestAnswers] = useState({}); // { questionIndex: selectedOptionIndex }
 
+  // Estado del radar (canales de aviso activos, proxima ejecucion).
+  const [estado, setEstado] = useState(null);
+
   const fetchConvocatorias = async () => {
     try {
       const res = await fetch(`/api/convocatorias`);
@@ -37,9 +40,24 @@ function App() {
     }
   };
 
+  const fetchEstado = async () => {
+    try {
+      const res = await fetch(`/api/estado`);
+      setEstado(await res.json());
+    } catch (err) {
+      console.error("Error fetching estado", err);
+    }
+  };
+
   useEffect(() => {
     fetchConvocatorias();
+    fetchEstado();
   }, []);
+
+  const canalesActivos = estado
+    ? Object.entries(estado.canales).filter(([, v]) => v).map(([k]) => k)
+    : [];
+  const sinCanales = estado && canalesActivos.length === 0;
 
   const handleSync = async () => {
     setSyncing(true);
@@ -139,6 +157,27 @@ function App() {
           {syncing ? 'Sincronizando...' : 'Sincronizar'}
         </button>
       </header>
+
+      {/* BANNER DE ESTADO DE AVISOS */}
+      {sinCanales && (
+        <div style={{
+          background: 'rgba(239, 68, 68, 0.15)', border: '1px solid #ef4444',
+          color: '#fecaca', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '1.5rem',
+          fontSize: '0.92rem', lineHeight: '1.5'
+        }}>
+          ⚠️ <b>Ningún canal de aviso configurado.</b> Las alertas se detectan pero no llegan a ningún sitio.
+          Configura <code>TELEGRAM_TOKEN</code> + <code>TELEGRAM_CHAT_ID</code> (o los <code>SMTP_*</code> para email)
+          en las variables de entorno de Coolify para recibir los avisos.
+        </div>
+      )}
+      {estado && canalesActivos.length > 0 && (
+        <div style={{ marginBottom: '1.5rem', color: 'var(--text-secondary)', fontSize: '0.85rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <span>Avisos activos: {canalesActivos.map(c => c === 'telegram' ? 'Telegram ✓' : c === 'email' ? 'Email ✓' : 'WhatsApp ✓').join('  ·  ')}</span>
+          {estado.proxima_ejecucion && (
+            <span>· Próximo escaneo: {(() => { try { return format(new Date(estado.proxima_ejecucion), "d MMM HH:mm", { locale: es }); } catch { return estado.proxima_ejecucion; } })()}</span>
+          )}
+        </div>
+      )}
 
       {/* TABS */}
       <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', overflowX: 'auto', paddingBottom: '0.5rem' }}>
