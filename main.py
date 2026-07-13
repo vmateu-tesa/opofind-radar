@@ -375,9 +375,13 @@ def estado(db: Session = Depends(get_db)):
 
 @app.get("/api/convocatorias")
 def read_convocatorias(db: Session = Depends(get_db)):
-    # Retornar convocatorias ordenadas por fecha descendente
-    # Limitamos a 500 para no saturar
-    return db.query(Convocatoria).order_by(Convocatoria.fecha_publicacion.desc()).limit(500).all()
+    # Retornar convocatorias ordenadas por fecha descendente. El frontend
+    # carga todo de una vez y filtra en cliente (no hay paginacion en la
+    # interfaz), asi que el limite es solo una cota de seguridad, no una
+    # pagina real. Con 10 fuentes activas el total ya supera facilmente los
+    # 500 registros (el limite anterior); 2000 da margen para bastantes
+    # meses de acumulacion antes de necesitar paginacion de verdad.
+    return db.query(Convocatoria).order_by(Convocatoria.fecha_publicacion.desc()).limit(2000).all()
 
 @app.post("/api/convocatorias/{convocatoria_id}/seguir")
 def seguir_convocatoria(convocatoria_id: str, db: Session = Depends(get_db)):
