@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import { Star, Search } from 'lucide-react';
 import ConvocatoriaRow from '../components/ConvocatoriaRow';
+import { cmpCierre } from '../api';
 
 // Convocatorias marcadas con la estrella: cualquier novedad de estas avisa
 // SIEMPRE por los canales activos. Orden: cierre más próximo primero.
 function Seguimiento({ convocatorias, onToggleSeguimiento, onIA, onNavegar }) {
   const seguidas = useMemo(() => {
     const lista = convocatorias.filter((c) => c.seguimiento);
-    lista.sort((a, b) => (a.dias_restantes ?? Infinity) - (b.dias_restantes ?? Infinity));
+    lista.sort(cmpCierre);
     return lista;
   }, [convocatorias]);
 

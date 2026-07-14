@@ -180,7 +180,9 @@ function App() {
     );
   } else if (vista === 'municipios') {
     contenido = (
-      <Municipios municipios={municipios} onToggleFavorito={toggleFavorito} sinCanales={sinCanales} />
+      <Municipios municipios={municipios} convocatorias={convocatorias}
+        onToggleFavorito={toggleFavorito} onToggleSeguimiento={toggleSeguimiento} onIA={handleIA}
+        sinCanales={sinCanales} />
     );
   } else if (vista === 'estado') {
     contenido = (
