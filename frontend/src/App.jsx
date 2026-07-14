@@ -29,6 +29,7 @@ function App() {
 
   const [convocatorias, setConvocatorias] = useState([]);
   const [municipios, setMunicipios] = useState([]);
+  const [vigilancias, setVigilancias] = useState([]);
   const [estadoRadar, setEstadoRadar] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState(null);
@@ -46,14 +47,16 @@ function App() {
   const cargar = useCallback(async () => {
     setErrorCarga(null);
     try {
-      const [convs, est, munis] = await Promise.all([
+      const [convs, est, munis, vigs] = await Promise.all([
         api.convocatorias(),
         api.estado(),
         api.municipios(),
+        api.vigilancias(),
       ]);
       setConvocatorias(convs);
       setEstadoRadar(est);
       setMunicipios(munis);
+      setVigilancias(vigs);
     } catch (err) {
       console.error('Error cargando datos', err);
       setErrorCarga(err.message || 'No se pudo conectar con el backend');
@@ -190,9 +193,9 @@ function App() {
     );
   } else {
     contenido = (
-      <Panel convocatorias={convocatorias} municipios={municipios} estadoRadar={estadoRadar}
-        syncing={syncing} syncMsg={syncMsg} onSync={handleSync} onNavegar={navegar}
-        onToggleSeguimiento={toggleSeguimiento} onIA={handleIA} />
+      <Panel convocatorias={convocatorias} municipios={municipios} vigilancias={vigilancias}
+        estadoRadar={estadoRadar} syncing={syncing} syncMsg={syncMsg} onSync={handleSync}
+        onNavegar={navegar} onToggleSeguimiento={toggleSeguimiento} onIA={handleIA} />
     );
   }
 

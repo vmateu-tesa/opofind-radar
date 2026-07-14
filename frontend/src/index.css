@@ -817,6 +817,62 @@ a { color: var(--accent-hover); }
 .lista-fuentes li:last-child { border-bottom: none; }
 .lista-fuentes li span:last-child { color: var(--text-secondary); text-align: right; }
 
+/* ---------- Vigilancias dirigidas (Panel) ---------- */
+
+.vigilancia-panel {
+  border-color: rgba(244, 63, 94, 0.35);
+  background: linear-gradient(160deg, rgba(244, 63, 94, 0.08), var(--bg-card));
+}
+
+.vigilancia {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.vigilancia.detectada {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.vigilancia-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.vigilancia-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.vigilancia-notas {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.vigilancia-acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.vigilancia-estado-texto {
+  font-size: 0.82rem;
+  color: var(--warn);
+}
+
 /* ---------- Tira de estado del radar (Panel) ---------- */
 
 .tira-radar {
