@@ -19,11 +19,12 @@ from apscheduler.triggers.interval import IntervalTrigger
 from pydantic import BaseModel
 
 from db.database import init_db, get_session
-from db.models import Convocatoria, Notificacion, AvisoPlazo, MunicipioFavorito
+from db.models import Convocatoria, Notificacion, AvisoPlazo, MunicipioFavorito, Vigilancia
 from core.matcher import Matcher
 from core.classifier import classify_tipo
 from core import plazos
 from core import geo
+from config import vigilancias as vigilancias_cfg
 from scrapers.dip_otras_oposiciones import DipOtrasOposicionesScraper
 from scrapers.dip_bolsa_oferta import DipBolsaOfertaScraper
 from scrapers.boe import BoeScraper
@@ -228,8 +229,82 @@ def check_updates():
     except Exception as e:
         print(f"Error revisando plazos: {e}")
 
+    # Tercera pasada: vigilancias dirigidas (plazas concretas que el usuario
+    # sigue de forma fija). Tarea especifica del cron: comprueba cada dia si
+    # alguna de esas plazas ya se ha convocado y avisa el primero.
+    try:
+        revisar_vigilancias(session, canales)
+    except Exception as e:
+        print(f"Error revisando vigilancias: {e}")
+
     session.close()
     print(f"[{datetime.now()}] Chequeo finalizado.")
+
+
+def sincronizar_vigilancias(session):
+    """Vuelca las vigilancias declaradas en config/vigilancias.py a la tabla
+    (upsert por slug). Crea las que falten y refresca sus metadatos, pero NO
+    toca el estado ni la deteccion ya registrada. Asi las vigilancias son
+    'fijas': aparecen en la app desde el arranque, sin esperar al cron."""
+    for cfg in vigilancias_cfg.VIGILANCIAS:
+        fila = session.query(Vigilancia).filter_by(slug=cfg["slug"]).first()
+        if fila is None:
+            fila = Vigilancia(slug=cfg["slug"], estado="vigilando")
+            session.add(fila)
+        fila.titulo = cfg.get("titulo", cfg["slug"])
+        fila.entidad = cfg.get("entidad")
+        fila.municipio = cfg.get("municipio")
+        fila.enlace = cfg.get("enlace")
+        fila.notas = cfg.get("notas")
+    session.commit()
+
+
+def revisar_vigilancias(session, canales):
+    """Tarea especifica del cron: para cada vigilancia que sigue en estado
+    'vigilando', busca entre las convocatorias almacenadas alguna que encaje
+    con sus reglas (config/vigilancias.py). Si la encuentra, la marca como
+    'detectada', pone esa convocatoria en seguimiento y envia un aviso
+    PRIORITARIO por todos los canales -- para enterarse el primero."""
+    sincronizar_vigilancias(session)
+
+    convs = None  # se carga perezosamente solo si hay algo que vigilar
+    for cfg in vigilancias_cfg.VIGILANCIAS:
+        fila = session.query(Vigilancia).filter_by(slug=cfg["slug"]).first()
+        if fila is None or fila.estado == "detectada":
+            continue
+        if convs is None:
+            convs = session.query(Convocatoria).all()
+
+        for c in convs:
+            muni = geo.municipio_de(c.entidad or "", c.titulo or "")
+            if not vigilancias_cfg.coincide(cfg, c.titulo or "", c.entidad or "",
+                                            c.observaciones or "", muni or ""):
+                continue
+
+            fila.estado = "detectada"
+            fila.convocatoria_id = c.id
+            fila.detectada_at = datetime.utcnow()
+            c.seguimiento = True  # queda seguida para futuros cambios tambien
+            print(f"VIGILANCIA DETECTADA [{cfg['slug']}]: {c.titulo} en {c.entidad}")
+
+            msg = "🎯 <b>¡PLAZA VIGILADA DETECTADA!</b>\n"
+            msg += f"<b>{_clean_for_telegram(cfg.get('titulo', ''))}</b>\n"
+            msg += f"<b>Plaza:</b> {_clean_for_telegram(c.titulo or '')}\n"
+            msg += f"<b>Entidad:</b> {_clean_for_telegram(c.entidad or '')}\n"
+            linea_plazo = _linea_plazo(c.fecha_inicio, c.fecha_fin)
+            if linea_plazo:
+                msg += linea_plazo + "\n"
+            if c.enlace:
+                msg += f"<b>Enlace:</b> {html_escape(c.enlace)}\n"
+
+            for nombre_canal, notificador in canales:
+                try:
+                    notificador.send_message(msg)
+                except Exception as e:
+                    print(f"Error avisando vigilancia por {nombre_canal}: {e}")
+            break
+
+    session.commit()
 
 
 def revisar_plazos(session, matcher, canales, hoy=None):
@@ -335,6 +410,16 @@ async def lifespan(app: FastAPI):
 load_dotenv()
 init_db()
 
+# Deja las vigilancias declaradas (config/vigilancias.py) reflejadas en la
+# BD desde el arranque, para que aparezcan en la app aunque el cron no haya
+# corrido todavia tras el despliegue.
+try:
+    _sesion_arranque = get_session()
+    sincronizar_vigilancias(_sesion_arranque)
+    _sesion_arranque.close()
+except Exception as e:
+    print(f"Error sincronizando vigilancias al arranque: {e}")
+
 app = FastAPI(lifespan=lifespan, title="OpoRadar API")
 
 app.add_middleware(
@@ -400,6 +485,8 @@ def estado(db: Session = Depends(get_db)):
         "total_convocatorias": db.query(Convocatoria).count(),
         "seguidas": db.query(Convocatoria).filter_by(seguimiento=True).count(),
         "municipios_favoritos": db.query(MunicipioFavorito).count(),
+        "vigilancias": db.query(Vigilancia).count(),
+        "vigilancias_detectadas": db.query(Vigilancia).filter_by(estado="detectada").count(),
     }
 
 
@@ -456,6 +543,41 @@ def read_municipios(db: Session = Depends(get_db)):
         }
         for m in geo.lista_municipios()
     ]
+
+
+@app.get("/api/vigilancias")
+def read_vigilancias(db: Session = Depends(get_db)):
+    """Vigilancias dirigidas del usuario (plazas fijas que se buscan cada dia
+    en el cron). Devuelve su estado y, si ya se detecto la convocatoria, sus
+    datos (plazo incluido) para poder enlazarla desde la interfaz."""
+    filas = db.query(Vigilancia).order_by(Vigilancia.creado_at).all()
+    salida = []
+    for v in filas:
+        conv = None
+        if v.convocatoria_id:
+            c = db.query(Convocatoria).filter_by(id=v.convocatoria_id).first()
+            if c:
+                conv = {
+                    "id": c.id,
+                    "titulo": c.titulo,
+                    "enlace": c.enlace,
+                    "fecha_inicio": c.fecha_inicio,
+                    "fecha_fin": c.fecha_fin,
+                    "plazo_estado": plazos.estado_plazo(c.fecha_inicio, c.fecha_fin),
+                    "dias_restantes": plazos.dias_restantes(c.fecha_fin),
+                }
+        salida.append({
+            "slug": v.slug,
+            "titulo": v.titulo,
+            "entidad": v.entidad,
+            "municipio": v.municipio,
+            "enlace": v.enlace,
+            "notas": v.notas,
+            "estado": v.estado,
+            "detectada_at": v.detectada_at.isoformat() if v.detectada_at else None,
+            "convocatoria": conv,
+        })
+    return salida
 
 
 @app.get("/api/municipios-favoritos")

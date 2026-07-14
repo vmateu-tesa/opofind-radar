@@ -54,6 +54,28 @@ class MunicipioFavorito(Base):
     creado_at = Column(DateTime, default=datetime.utcnow)
 
 
+class Vigilancia(Base):
+    """Plaza objetivo que el usuario vigila de forma fija (ver
+    config/vigilancias.py). Se sincroniza desde la configuracion al arrancar.
+    ``estado`` es 'vigilando' hasta que aparece una convocatoria que encaja,
+    momento en que pasa a 'detectada' (guardando el id de esa convocatoria) y
+    se dispara el aviso prioritario. Las REGLAS de deteccion viven en la
+    config; esta tabla guarda solo el estado."""
+    __tablename__ = 'vigilancias'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    slug = Column(String, nullable=False, unique=True)
+    titulo = Column(String, nullable=False)
+    entidad = Column(String)
+    municipio = Column(String)
+    enlace = Column(String)          # referencia (p.ej. PDF de la RPT)
+    notas = Column(Text)
+    estado = Column(String, nullable=False, default="vigilando")  # 'vigilando' | 'detectada'
+    convocatoria_id = Column(String, nullable=True)  # convocatoria real detectada
+    detectada_at = Column(DateTime, nullable=True)
+    creado_at = Column(DateTime, default=datetime.utcnow)
+
+
 class AvisoPlazo(Base):
     """Registro de los avisos de PLAZO ya enviados para una convocatoria, para
     no repetirlos. tipo_aviso es 'apertura', 'cierre_5d', 'cierre_1d'... (ver

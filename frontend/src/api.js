@@ -19,6 +19,7 @@ export const api = {
   convocatorias: () => fetch('/api/convocatorias').then(json),
   estado: () => fetch('/api/estado').then(json),
   municipios: () => fetch('/api/municipios').then(json),
+  vigilancias: () => fetch('/api/vigilancias').then(json),
   seguir: (id) => fetch(`/api/convocatorias/${id}/seguir`, { method: 'POST' }).then(json),
   dejarDeSeguir: (id) => fetch(`/api/convocatorias/${id}/dejar-de-seguir`, { method: 'POST' }).then(json),
   addFavorito: (nombre) => fetch('/api/municipios-favoritos', {

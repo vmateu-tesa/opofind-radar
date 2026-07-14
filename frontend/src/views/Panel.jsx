@@ -4,12 +4,13 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import KpiCard from '../components/KpiCard';
 import ConvocatoriaRow from '../components/ConvocatoriaRow';
+import Vigilancias from '../components/Vigilancias';
 
 const MS_7_DIAS = 7 * 24 * 60 * 60 * 1000;
 
 // Vista de inicio: KPIs clicables, columnas "cierran pronto" / "últimas
 // novedades" y tira de estado del radar.
-function Panel({ convocatorias, municipios, estadoRadar, syncing, syncMsg, onSync, onNavegar, onToggleSeguimiento, onIA }) {
+function Panel({ convocatorias, municipios, vigilancias, estadoRadar, syncing, syncMsg, onSync, onNavegar, onToggleSeguimiento, onIA }) {
   const stats = useMemo(() => {
     const ahora = Date.now();
     let abiertas = 0, cierranPronto = 0, nuevas7 = 0, seguidas = 0;
@@ -67,6 +68,8 @@ function Panel({ convocatorias, municipios, estadoRadar, syncing, syncMsg, onSyn
           </div>
         </div>
       )}
+
+      <Vigilancias vigilancias={vigilancias} />
 
       <div className="kpi-grid">
         <KpiCard icono={CalendarCheck} valor={stats.abiertas} etiqueta="Plazo abierto" tono="var(--ok)"
