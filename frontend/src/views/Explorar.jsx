@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Search, Star, X } from 'lucide-react';
 import ConvocatoriaRow from '../components/ConvocatoriaRow';
-import { TIPOS, normaliza, FILTROS_DEFECTO } from '../api';
+import { TIPOS, normaliza, FILTROS_DEFECTO, cmpCierre } from '../api';
 
 const CHIPS_PLAZO = [
   { value: 'todas', label: 'Todas' },
@@ -45,12 +45,7 @@ function Explorar({ convocatorias, municipios, filtros, setFiltros, onToggleSegu
       return true;
     });
     if (filtros.orden === 'cierre') {
-      // Cierre más próximo primero; sin fecha de fin al final.
-      lista.sort((a, b) => {
-        const da = a.dias_restantes ?? Infinity;
-        const db = b.dias_restantes ?? Infinity;
-        return da - db;
-      });
+      lista.sort(cmpCierre);
     } else {
       lista.sort((a, b) => Date.parse(b.fecha_publicacion) - Date.parse(a.fecha_publicacion));
     }

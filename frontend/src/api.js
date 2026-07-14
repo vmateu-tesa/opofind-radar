@@ -48,6 +48,29 @@ export function normaliza(texto) {
   return (texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+// Comparador "cierre mas proximo" para ordenar convocatorias. Agrupa por
+// utilidad para el usuario, no por el numero crudo de dias_restantes (que
+// es negativo en las cerradas y las colaria delante): primero las que
+// siguen abiertas ordenadas por urgencia (menos dias primero), luego las
+// que aun no han abierto, luego las que no tienen fecha, y por ultimo las
+// cerradas. dias_restantes: >=0 abierta (0 = ultimo dia hoy), <0 cerrada,
+// null si la fuente no dio fecha parseable.
+export function cmpCierre(a, b) {
+  const grupo = (c) => {
+    const d = c.dias_restantes;
+    if (d != null && d >= 0) return 0;                 // abierta / cierra hoy
+    if (c.plazo_estado === 'proximamente') return 1;   // aun no abre
+    if (d == null) return 2;                            // sin fecha
+    return 3;                                           // cerrada
+  };
+  const ga = grupo(a);
+  const gb = grupo(b);
+  if (ga !== gb) return ga - gb;
+  if (ga === 0) return a.dias_restantes - b.dias_restantes;   // mas urgente primero
+  if (ga === 3) return b.dias_restantes - a.dias_restantes;   // cerrada hace menos, primero
+  return Date.parse(b.fecha_publicacion) - Date.parse(a.fecha_publicacion);
+}
+
 // Filtros por defecto de la vista Explorar (tambien los presets de los
 // KPIs del Panel parten de aqui).
 export const FILTROS_DEFECTO = {
