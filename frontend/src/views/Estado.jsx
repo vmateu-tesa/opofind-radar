@@ -11,11 +11,11 @@ const CANALES = [
   },
   {
     clave: 'whatsapp', nombre: 'WhatsApp', Icono: MessageCircle,
-    envs: ['ENABLE_WHATSAPP=1', 'WHATSAPP_TOKEN', 'WHATSAPP_PHONE_ID'],
+    envs: ['ENABLE_WHATSAPP=1', 'WHATSAPP_TOKEN', 'WHATSAPP_PHONE_ID', 'WHATSAPP_TO_NUMBER'],
   },
   {
     clave: 'email', nombre: 'Email', Icono: Mail,
-    envs: ['ENABLE_EMAIL=1', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS', 'EMAIL_TO'],
+    envs: ['ENABLE_EMAIL=1', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASSWORD', 'EMAIL_TO'],
   },
 ];
 

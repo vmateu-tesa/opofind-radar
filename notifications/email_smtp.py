@@ -95,7 +95,7 @@ class EmailNotifier(BaseNotifier):
         """Asunto: primera linea sin etiquetas HTML, maximo 100 caracteres."""
         primera_linea = message.split("\n", 1)[0]
         limpia = self._sin_etiquetas_html(primera_linea)
-        return f"[OpoRadar] {limpia[:100]}"
+        return f"[RADAR] {limpia[:100]}"
 
     @staticmethod
     def _sin_etiquetas_html(texto: str) -> str:
