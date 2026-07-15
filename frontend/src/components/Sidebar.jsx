@@ -28,7 +28,7 @@ function Sidebar({ vista, onNavegar, contadores, estadoRadar }) {
     <aside className="sidebar">
       <div className="sidebar-logo">
         <span className="sidebar-logo-icono"><Radar size={26} /></span>
-        <span className="sidebar-logo-texto">OpoRadar</span>
+        <span className="sidebar-logo-texto">RADAR</span>
       </div>
       <nav className="sidebar-nav">
         {ITEMS.map(({ id, etiqueta, Icono }) => (
