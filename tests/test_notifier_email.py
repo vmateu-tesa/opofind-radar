@@ -152,7 +152,7 @@ def test_asunto_primera_linea_sin_html_con_prefijo(entorno_smtp):
 
     _, _, mensaje_crudo = ServidorSmtpFalso.instancias[0].sendmail_args
     correo = message_from_string(mensaje_crudo)
-    assert correo["Subject"] == "[OpoRadar] Nueva convocatoria (BOP Alicante)"
+    assert correo["Subject"] == "[RADAR] Nueva convocatoria (BOP Alicante)"
 
 
 def test_asunto_recortado_a_100_caracteres(entorno_smtp):
@@ -161,7 +161,7 @@ def test_asunto_recortado_a_100_caracteres(entorno_smtp):
 
     _, _, mensaje_crudo = ServidorSmtpFalso.instancias[0].sendmail_args
     correo = message_from_string(mensaje_crudo)
-    assert correo["Subject"] == "[OpoRadar] " + "A" * 100
+    assert correo["Subject"] == "[RADAR] " + "A" * 100
 
 
 def test_puerto_465_usa_smtp_ssl_sin_starttls(entorno_smtp, monkeypatch):

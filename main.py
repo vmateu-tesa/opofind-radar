@@ -466,10 +466,18 @@ def estado(db: Session = Depends(get_db)):
         return os.getenv("ENABLE_TELEGRAM") == "1" and bool(os.getenv("TELEGRAM_TOKEN")) and bool(os.getenv("TELEGRAM_CHAT_ID"))
 
     def _wa_ok():
-        return os.getenv("ENABLE_WHATSAPP") == "1" and bool(os.getenv("WHATSAPP_TOKEN")) and bool(os.getenv("WHATSAPP_PHONE_ID"))
+        # WhatsappNotifier exige tambien el numero destino: sin el, el envio
+        # falla aunque token y phone_id esten puestos.
+        return (os.getenv("ENABLE_WHATSAPP") == "1" and bool(os.getenv("WHATSAPP_TOKEN"))
+                and bool(os.getenv("WHATSAPP_PHONE_ID")) and bool(os.getenv("WHATSAPP_TO_NUMBER")))
 
     def _email_ok():
-        return os.getenv("ENABLE_EMAIL") == "1" and bool(os.getenv("SMTP_HOST")) and bool(os.getenv("EMAIL_TO") or os.getenv("SMTP_USER"))
+        # EmailNotifier exige host, usuario, contraseña y destinatario; si
+        # falta alguno el correo no sale. Se valida el conjunto completo para
+        # no marcar el canal como activo cuando en realidad no enviaria.
+        return (os.getenv("ENABLE_EMAIL") == "1" and bool(os.getenv("SMTP_HOST"))
+                and bool(os.getenv("SMTP_USER")) and bool(os.getenv("SMTP_PASSWORD"))
+                and bool(os.getenv("EMAIL_TO")))
 
     proxima = None
     try:
